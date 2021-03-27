@@ -26,6 +26,18 @@ class RegisterViewState extends State<RegisterView> {
             children: <Widget>[
               TextFormField(
                 decoration: InputDecoration(
+                  hintText: 'Nome'
+                ),
+                keyboardType: TextInputType.emailAddress,
+              ),
+              TextFormField(
+                decoration: InputDecoration(
+                  hintText: 'Sobrenome'
+                ),
+                keyboardType: TextInputType.emailAddress,
+              ),
+              TextFormField(
+                decoration: InputDecoration(
                   hintText: 'Email'
                 ),
                 keyboardType: TextInputType.emailAddress,
@@ -33,12 +45,6 @@ class RegisterViewState extends State<RegisterView> {
               TextFormField(
                 decoration: InputDecoration(
                   hintText: 'Senha'
-                ),
-                obscureText: true,
-              ),
-              TextFormField(
-                decoration: InputDecoration(
-                  hintText: 'Confirmação de Senha'
                 ),
                 obscureText: true,
               ),
