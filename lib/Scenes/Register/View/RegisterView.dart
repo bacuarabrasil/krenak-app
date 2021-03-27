@@ -46,7 +46,7 @@ class RegisterViewState extends State<RegisterView> {
                 padding: const EdgeInsets.symmetric(vertical: 16.0),
                 child: ElevatedButton(
                   onPressed: () {
-                    
+                    Navigator.pushReplacementNamed(context, '/home');
                   },
                   child: Text('Registrar'),
                 ),

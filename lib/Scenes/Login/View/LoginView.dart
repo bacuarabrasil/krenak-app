@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:krenak/Scenes/Register/View/RegisterView.dart';
 
 class LoginView extends StatefulWidget {
   @override
@@ -41,7 +40,7 @@ class LoginViewState extends State<LoginView> {
                 padding: const EdgeInsets.symmetric(vertical: 16.0),
                 child: ElevatedButton(
                   onPressed: () {
-                    
+                    Navigator.pushReplacementNamed(context, '/home');
                   },
                   child: Text('Entrar'),
                 ),
@@ -50,10 +49,7 @@ class LoginViewState extends State<LoginView> {
                 padding: const EdgeInsets.symmetric(vertical: 16.0),
                 child: ElevatedButton(
                   onPressed: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (context) => RegisterView()),
-                    );
+                    Navigator.pushNamed(context, '/register');
                   },
                   child: Text('Registrar'),
                 ),
