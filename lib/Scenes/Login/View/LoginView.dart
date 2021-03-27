@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 
+import 'package:krenak/Scenes/Login/Model/Login.dart';
+import 'package:krenak/Services/Login/Request/LoginRequest.dart';
+
 class LoginView extends StatefulWidget {
   @override
   LoginViewState createState() {
@@ -9,6 +12,8 @@ class LoginView extends StatefulWidget {
 
 class LoginViewState extends State<LoginView> {
   final _formKey = GlobalKey<FormState>();
+
+  Login login = Login();
 
   @override
   Widget build(BuildContext context) {
@@ -28,18 +33,27 @@ class LoginViewState extends State<LoginView> {
                 decoration: InputDecoration(
                   hintText: 'Email'
                 ),
+                onSaved: (String value) {
+                  login.email = value;
+                },
                 keyboardType: TextInputType.emailAddress,
               ),
               TextFormField(
                 decoration: InputDecoration(
                   hintText: 'Senha'
                 ),
+                onSaved: (String value) {
+                  login.password = value;
+                },
                 obscureText: true,
               ),
               Padding(
                 padding: const EdgeInsets.symmetric(vertical: 16.0),
                 child: ElevatedButton(
-                  onPressed: () {
+                  onPressed: () async {
+                    _formKey.currentState.save();
+                    final loginRequest = LoginRequest();
+                    var response = await loginRequest.execute(login);
                     Navigator.pushReplacementNamed(context, '/home');
                   },
                   child: Text('Entrar'),

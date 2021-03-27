@@ -8,7 +8,16 @@ class HomeView extends StatelessWidget {
         title: Text('Home')
       ),
       body: Center(
-        child: Text('Krenak')
+        child: Padding(
+          padding: const EdgeInsets.symmetric(vertical: 16.0),
+          child: ElevatedButton(
+            onPressed: () async {
+              
+              Navigator.pushReplacementNamed(context, '/login');
+            },
+            child: Text('Logout'),
+          ),
+        ),
       )
     );
   }
