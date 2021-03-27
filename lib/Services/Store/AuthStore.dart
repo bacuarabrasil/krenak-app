@@ -11,12 +11,19 @@ import 'package:krenak/Services/Store/SessionStore.dart';
 class AuthStore with ChangeNotifier {
   var currentUser;
 
-  Future<LoginResponse> getUser() {
-    return Future.value(currentUser);
+  static AuthStore shared = AuthStore();
+
+  Future<LoginResponse> get user async {
+    var session = await SessionRequest().execute();
+    this.currentUser = session;
+    notifyListeners();
+    return Future.value(session);
   }
 
-  Future logout() {
+  Future logout() async {
     this.currentUser = null;
+    var session = LoginResponse(access: null, refresh: null);
+    await SessionStore().execute(session);
     notifyListeners();
     return Future.value(currentUser);
   }

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:krenak/Services/Store/AuthStore.dart';
 
 class HomeView extends StatelessWidget {
   @override
@@ -12,6 +13,7 @@ class HomeView extends StatelessWidget {
           padding: const EdgeInsets.symmetric(vertical: 16.0),
           child: ElevatedButton(
             onPressed: () {
+              AuthStore.shared.logout();
               Navigator.pushReplacementNamed(context, '/login');
             },
             child: Text('Logout'),
