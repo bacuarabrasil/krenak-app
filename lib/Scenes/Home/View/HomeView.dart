@@ -11,8 +11,7 @@ class HomeView extends StatelessWidget {
         child: Padding(
           padding: const EdgeInsets.symmetric(vertical: 16.0),
           child: ElevatedButton(
-            onPressed: () async {
-              
+            onPressed: () {
               Navigator.pushReplacementNamed(context, '/login');
             },
             child: Text('Logout'),

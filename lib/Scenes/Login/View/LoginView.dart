@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 import 'package:krenak/Scenes/Login/Model/Login.dart';
-import 'package:krenak/Services/Login/Request/LoginRequest.dart';
+import 'package:krenak/Services/Store/AuthStore.dart';
 
 class LoginView extends StatefulWidget {
   @override
@@ -52,8 +52,7 @@ class LoginViewState extends State<LoginView> {
                 child: ElevatedButton(
                   onPressed: () async {
                     _formKey.currentState.save();
-                    final loginRequest = LoginRequest();
-                    var response = await loginRequest.execute(login);
+                    await AuthStore().loginUser(login);
                     Navigator.pushReplacementNamed(context, '/home');
                   },
                   child: Text('Entrar'),

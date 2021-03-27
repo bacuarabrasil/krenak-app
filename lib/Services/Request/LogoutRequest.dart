@@ -1,6 +1,6 @@
 import 'package:dio/dio.dart';
 
-import 'package:krenak/Services/Logout/Response/LogoutResponse.dart';
+import 'package:krenak/Services/Response/LogoutResponse.dart';
 
 class LogoutRequest {
 

@@ -1,7 +1,7 @@
 import 'package:dio/dio.dart';
 
 import 'package:krenak/Scenes/Login/Model/Login.dart';
-import 'package:krenak/Services/Login/Response/LoginResponse.dart';
+import 'package:krenak/Services/Response/LoginResponse.dart';
 
 class LoginRequest {
 

@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 
+import 'package:krenak/Scenes/Register/Model/Register.dart';
+import 'package:krenak/Services/Store/AuthStore.dart';
+
 class RegisterView extends StatefulWidget {
   @override
   RegisterViewState createState() {
@@ -9,6 +12,8 @@ class RegisterView extends StatefulWidget {
 
 class RegisterViewState extends State<RegisterView> {
   final _formKey = GlobalKey<FormState>();
+
+  Register register = Register();
 
   @override
   Widget build(BuildContext context) {
@@ -29,29 +34,43 @@ class RegisterViewState extends State<RegisterView> {
                   hintText: 'Nome'
                 ),
                 keyboardType: TextInputType.emailAddress,
+                onSaved: (String value) {
+                  register.firstName = value;
+                },
               ),
               TextFormField(
                 decoration: InputDecoration(
                   hintText: 'Sobrenome'
                 ),
                 keyboardType: TextInputType.emailAddress,
+                onSaved: (String value) {
+                  register.lastName = value;
+                },
               ),
               TextFormField(
                 decoration: InputDecoration(
                   hintText: 'Email'
                 ),
                 keyboardType: TextInputType.emailAddress,
+                onSaved: (String value) {
+                  register.email = value;
+                },
               ),
               TextFormField(
                 decoration: InputDecoration(
                   hintText: 'Senha'
                 ),
                 obscureText: true,
+                onSaved: (String value) {
+                  register.password = value;
+                },
               ),
               Padding(
                 padding: const EdgeInsets.symmetric(vertical: 16.0),
                 child: ElevatedButton(
-                  onPressed: () {
+                  onPressed: () async {
+                    _formKey.currentState.save();
+                    await AuthStore().createUser(register);
                     Navigator.pushReplacementNamed(context, '/home');
                   },
                   child: Text('Registrar'),
