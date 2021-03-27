@@ -1,14 +1,15 @@
-import 'package:shared_preferences/shared_preferences.dart';
-
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:krenak/Services/Response/LoginResponse.dart';
 
 class SessionRequest {
 
   Future<LoginResponse> execute() async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
+    FlutterSecureStorage storage = FlutterSecureStorage();
+    var access = await storage.read(key: 'access');
+    var refresh = await storage.read(key: 'refresh');
     return LoginResponse(
-      access: prefs.getString('access'),
-      refresh: prefs.getString('refresh'),
+      access: access,
+      refresh: refresh,
     );
   }
 
