@@ -8,7 +8,7 @@ class LoginRequest {
   Future<LoginResponse> execute(Login login) async {
     Dio dio = new Dio();
     Response response = await dio.post(
-      'https://b6d151ac60d7.ngrok.io/api/v1/accounts/login/',
+      'https://29ea49a5acf1.ngrok.io/api/v1/accounts/login/',
       data: {
         'email': login.email,
         'password': login.password
