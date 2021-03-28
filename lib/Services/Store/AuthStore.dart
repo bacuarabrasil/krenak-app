@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:krenak/Scenes/Login/Model/Login.dart';
 import 'package:krenak/Scenes/Register/Model/Register.dart';
 import 'package:krenak/Services/Request/LoginRequest.dart';
+import 'package:krenak/Services/Request/LogoutRequest.dart';
 import 'package:krenak/Services/Request/RegisterRequest.dart';
 import 'package:krenak/Services/Request/SessionRequest.dart';
 import 'package:krenak/Services/Response/LoginResponse.dart';
@@ -22,6 +23,7 @@ class AuthStore with ChangeNotifier {
 
   Future logout() async {
     this.currentUser = null;
+    await LogoutRequest().execute();
     var session = LoginResponse(access: null, refresh: null);
     await SessionStore().execute(session);
     notifyListeners();

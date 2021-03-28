@@ -52,8 +52,12 @@ class LoginViewState extends State<LoginView> {
                 child: ElevatedButton(
                   onPressed: () async {
                     _formKey.currentState.save();
-                    await AuthStore().loginUser(login);
-                    Navigator.pushReplacementNamed(context, '/home');
+                    try {
+                      await AuthStore().loginUser(login);
+                      Navigator.pushReplacementNamed(context, '/home');
+                    } catch (e) {
+                      // Do nothing
+                    }                    
                   },
                   child: Text('Entrar'),
                 ),

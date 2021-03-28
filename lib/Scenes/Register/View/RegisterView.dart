@@ -70,8 +70,12 @@ class RegisterViewState extends State<RegisterView> {
                 child: ElevatedButton(
                   onPressed: () async {
                     _formKey.currentState.save();
-                    await AuthStore().createUser(register);
-                    Navigator.pushReplacementNamed(context, '/home');
+                    try {
+                      await AuthStore().createUser(register);
+                      Navigator.pushReplacementNamed(context, '/home');
+                    } catch (e) {
+                      // Do nothing
+                    }
                   },
                   child: Text('Registrar'),
                 ),
