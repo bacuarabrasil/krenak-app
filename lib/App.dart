@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:krenak/Scenes/Profile/View/ProfileView.dart';
 import 'package:krenak/Services/Response/LoginResponse.dart';
 import 'package:krenak/Services/Store/AuthStore.dart';
 
@@ -26,6 +27,7 @@ class App extends StatelessWidget {
         '/login': (context) => new LoginView(),
         '/register': (context) => new RegisterView(),
         '/home': (context) => new HomeView(),
+        '/profile': (context) => new ProfileView(),
       },
     );
   }

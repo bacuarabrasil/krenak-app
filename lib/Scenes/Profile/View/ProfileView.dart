@@ -1,25 +1,51 @@
 import 'package:flutter/material.dart';
 
-import 'package:krenak/Scenes/Register/Model/Register.dart';
-import 'package:krenak/Services/Store/AuthStore.dart';
+import 'package:krenak/Scenes/Profile/Model/Profile.dart';
+import 'package:krenak/Services/Request/MeRequest.dart';
 
-class RegisterView extends StatefulWidget {
+class ProfileView extends StatefulWidget {
   @override
-  RegisterViewState createState() {
-    return RegisterViewState();
+  ProfileViewState createState() {
+    return ProfileViewState();
   }
 }
 
-class RegisterViewState extends State<RegisterView> {
+class ProfileViewState extends State<ProfileView> {
   final _formKey = GlobalKey<FormState>();
 
-  Register register = Register();
+  final _emailController = TextEditingController();
+  final _firstNameController = TextEditingController();
+  final _lastNameController = TextEditingController();
+  final _birthdateController = TextEditingController();
+
+  @override
+  void initState() {
+    super.initState();
+    var me = MeRequest().execute();
+    me.then(handleRequest);
+  }
+
+  handleRequest(value) {
+    var profile = Profile(
+      email: value.email,
+      firstName: value.firstName,
+      lastName: value.lastName,
+      birthdate: value.birthdate
+    );
+    _emailController.text = profile.email;
+    _firstNameController.text = profile.firstName;
+    _lastNameController.text = profile.lastName;
+    _birthdateController.text = profile.birthdate;
+    setState(() { profile = profile; });
+  }
+
+  Profile profile = Profile();
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Registro'),
+        title: Text('Perfil'),
       ),
       body: Container(
         margin: const EdgeInsets.all(24.0),
@@ -30,46 +56,41 @@ class RegisterViewState extends State<RegisterView> {
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
               TextFormField(
+                controller: _firstNameController,
                 decoration: InputDecoration(
                   hintText: 'Nome'
                 ),
                 onSaved: (String value) {
-                  register.firstName = value;
+                  profile.firstName = value;
                 },
               ),
               TextFormField(
+                controller: _lastNameController,
                 decoration: InputDecoration(
                   hintText: 'Sobrenome'
                 ),
                 onSaved: (String value) {
-                  register.lastName = value;
+                  profile.lastName = value;
                 },
               ),
               TextFormField(
+                controller: _emailController,
                 decoration: InputDecoration(
                   hintText: 'Email'
                 ),
                 keyboardType: TextInputType.emailAddress,
                 onSaved: (String value) {
-                  register.email = value;
+                  profile.email = value;
                 },
               ),
               TextFormField(
+                controller: _birthdateController,
                 decoration: InputDecoration(
                   hintText: 'Data de nascimento'
                 ),
                 keyboardType: TextInputType.datetime,
                 onSaved: (String value) {
-                  register.birthdate = value;
-                },
-              ),
-              TextFormField(
-                decoration: InputDecoration(
-                  hintText: 'Senha'
-                ),
-                obscureText: true,
-                onSaved: (String value) {
-                  register.password = value;
+                  profile.birthdate = value;
                 },
               ),
               Padding(
@@ -77,23 +98,10 @@ class RegisterViewState extends State<RegisterView> {
                 child: ElevatedButton(
                   onPressed: () async {
                     _formKey.currentState.save();
-                    try {
-                      await AuthStore().createUser(register);
-                      Navigator.pushReplacementNamed(context, '/home');
-                    } catch (e) {
-                      // Do nothing
-                    }
+                    var updated = await MeRequest().update(profile);
+                    handleRequest(updated);
                   },
-                  child: Text('Registrar'),
-                ),
-              ),
-              Padding(
-                padding: const EdgeInsets.symmetric(vertical: 16.0),
-                child: ElevatedButton(
-                  onPressed: () {
-                    Navigator.pop(context);
-                  },
-                  child: Text('Entrar'),
+                  child: Text('Atualizar'),
                 ),
               ),
             ],
