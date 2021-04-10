@@ -1,12 +1,16 @@
 class LoginResponse {
   final String refresh;
   final String access;
-  final int id;
+  final String id;
+  final String onboarding;
 
-  LoginResponse({this.refresh, this.access, this.id});
+  LoginResponse({this.refresh, this.access, this.id, this.onboarding});
 
   factory LoginResponse.fromJson(Map<String, dynamic> json) {
     return LoginResponse(
-        refresh: json['refresh'], access: json['access'], id: json['id']);
+        refresh: json['refresh'],
+        access: json['access'],
+        id: json['id'].toString(),
+        onboarding: 'no');
   }
 }

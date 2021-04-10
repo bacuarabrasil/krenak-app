@@ -7,7 +7,9 @@ class SessionRequest {
     var access = await storage.read(key: 'access');
     var refresh = await storage.read(key: 'refresh');
     var id = await storage.read(key: 'id');
+    var onboarding = await storage.read(key: 'onboarding');
+
     return LoginResponse(
-        access: access, refresh: refresh, id: int.parse(id ?? "1"));
+        access: access, refresh: refresh, id: id, onboarding: onboarding);
   }
 }

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:krenak/Scenes/Onboarding/Interest.dart';
 import 'package:krenak/Scenes/Onboarding/Onboarding.dart';
 
@@ -22,8 +23,8 @@ class OnboardingViewState extends State<OnboardingView> {
     super.initState();
     onboarding.interests = [];
 
-    // var interests = InterestRequest().execute();
-    // interests.then(handleRequest);
+    var interests = InterestRequest().execute();
+    interests.then(handleRequest);
   }
 
   handleRequest(value) {
@@ -32,7 +33,7 @@ class OnboardingViewState extends State<OnboardingView> {
     });
   }
 
-  List<Interest> interests = [Interest(description: "fisica", id: 1)];
+  List<Interest> interests = [];
   Onboarding onboarding = Onboarding();
 
   @override
@@ -101,6 +102,11 @@ class OnboardingViewState extends State<OnboardingView> {
                           onPressed: () async {
                             _formkey.currentState.save();
                             await PreferencesRequest().execute(onboarding);
+                            FlutterSecureStorage storage =
+                                FlutterSecureStorage();
+                            await storage.write(
+                                key: 'onboarding', value: 'done');
+                            Navigator.pushReplacementNamed(context, '/home');
                           },
                           child: Text('Enviar'),
                         ),

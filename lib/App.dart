@@ -19,6 +19,9 @@ class App extends StatelessWidget {
             if (snapshot.hasData) {
               var user = snapshot.data;
               if (user.access != null && user.refresh != null) {
+                if (user.onboarding != 'done') {
+                  return OnboardingView();
+                }
                 return HomeView();
               }
             }
