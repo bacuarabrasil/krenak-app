@@ -19,7 +19,7 @@ class App extends StatelessWidget {
             if (snapshot.hasData) {
               var user = snapshot.data;
               if (user.access != null && user.refresh != null) {
-                return OnboardingView();
+                return HomeView();
               }
             }
             return LoginView();
@@ -27,7 +27,7 @@ class App extends StatelessWidget {
       routes: {
         '/login': (context) => new LoginView(),
         '/register': (context) => new RegisterView(),
-        '/home': (context) => new OnboardingView(),
+        '/home': (context) => new HomeView(),
         '/profile': (context) => new ProfileView(),
         '/onboarding': (context) => new OnboardingView()
       },
