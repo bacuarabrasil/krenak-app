@@ -1,17 +1,17 @@
 import 'package:dio/dio.dart';
-import 'package:krenak/Scenes/Profile/Model/Profile.dart';
+import 'package:krenak/Scenes/Profile/Profile.dart';
 
 import 'package:krenak/Services/Request/SessionRequest.dart';
 import 'package:krenak/Services/Response/MeResponse.dart';
 
 class MeRequest {
-
   Future<MeResponse> execute() async {
     Dio dio = new Dio();
     var login = await SessionRequest().execute();
     var access = login.access;
     dio.options.headers['authorization'] = 'Bearer $access';
-    Response response = await dio.get('https://304df5e782a6.ngrok.io/api/v1/accounts/me/');
+    Response response =
+        await dio.get('https://304df5e782a6.ngrok.io/api/v1/accounts/me/');
     if (response.statusCode == 200) {
       return MeResponse.fromJson(response.data);
     } else {
@@ -24,19 +24,16 @@ class MeRequest {
     var login = await SessionRequest().execute();
     var access = login.access;
     dio.options.headers['authorization'] = 'Bearer $access';
-    Response response = await dio.patch(
-      'https://304df5e782a6.ngrok.io/api/v1/accounts/me/',
-      data: {
-        'email': profile.email ?? '',
-        'first_name': profile.firstName ?? '',
-        'last_name': profile.lastName ?? ''
-      }
-    );
+    Response response = await dio
+        .patch('https://304df5e782a6.ngrok.io/api/v1/accounts/me/', data: {
+      'email': profile.email ?? '',
+      'first_name': profile.firstName ?? '',
+      'last_name': profile.lastName ?? ''
+    });
     if (response.statusCode == 200) {
       return MeResponse.fromJson(response.data);
     } else {
       throw Exception('Unable to perform request!');
     }
   }
-
 }
