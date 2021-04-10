@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:krenak/Scenes/Profile/ProfileView.dart';
 import 'package:krenak/Services/Response/LoginResponse.dart';
 import 'package:krenak/Services/Store/AuthStore.dart';
 
 import 'Scenes/Login/LoginView.dart';
 import 'Scenes/Register/RegisterView.dart';
 import 'Scenes/Home/HomeView.dart';
+import 'Scenes/Onboarding/OnboardingView.dart';
+import 'Scenes/Profile/ProfileView.dart';
 
 class App extends StatelessWidget {
   @override
@@ -18,7 +19,7 @@ class App extends StatelessWidget {
             if (snapshot.hasData) {
               var user = snapshot.data;
               if (user.access != null && user.refresh != null) {
-                return HomeView();
+                return OnboardingView();
               }
             }
             return LoginView();
@@ -26,8 +27,9 @@ class App extends StatelessWidget {
       routes: {
         '/login': (context) => new LoginView(),
         '/register': (context) => new RegisterView(),
-        '/home': (context) => new HomeView(),
+        '/home': (context) => new OnboardingView(),
         '/profile': (context) => new ProfileView(),
+        '/onboarding': (context) => new OnboardingView()
       },
     );
   }

@@ -11,7 +11,7 @@ class MeRequest {
     var access = login.access;
     dio.options.headers['authorization'] = 'Bearer $access';
     Response response =
-        await dio.get('https://304df5e782a6.ngrok.io/api/v1/accounts/me/');
+        await dio.get('https://644236199a13.ngrok.io/api/v1/accounts/me/');
     if (response.statusCode == 200) {
       return MeResponse.fromJson(response.data);
     } else {
@@ -25,7 +25,7 @@ class MeRequest {
     var access = login.access;
     dio.options.headers['authorization'] = 'Bearer $access';
     Response response = await dio
-        .patch('https://304df5e782a6.ngrok.io/api/v1/accounts/me/', data: {
+        .patch('https://644236199a13.ngrok.io/api/v1/accounts/me/', data: {
       'email': profile.email ?? '',
       'first_name': profile.firstName ?? '',
       'last_name': profile.lastName ?? ''

@@ -7,10 +7,11 @@ class RegisterRequest {
   Future<LoginResponse> execute(Register register) async {
     Dio dio = new Dio();
     Response response = await dio.post(
-        'https://304df5e782a6.ngrok.io/api/v1/accounts/registration/',
+        'https://644236199a13.ngrok.io/api/v1/accounts/registration/',
         data: {
           'email': register.email,
           'first_name': register.firstName,
+          'birthdate': register.birthdate,
           'last_name': register.lastName,
           'password': register.password
         });

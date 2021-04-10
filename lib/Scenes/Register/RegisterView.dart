@@ -69,7 +69,8 @@ class RegisterViewState extends State<RegisterView> {
                         _formKey.currentState.save();
                         try {
                           await AuthStore().createUser(register);
-                          Navigator.pushReplacementNamed(context, '/home');
+                          Navigator.pushReplacementNamed(
+                              context, '/onboarding');
                         } catch (e) {
                           // Do nothing
                         }
