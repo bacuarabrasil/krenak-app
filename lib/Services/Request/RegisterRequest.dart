@@ -10,7 +10,7 @@ class RegisterRequest {
     Dio dio = new Dio();
     try {
       Response response = await dio.post(
-          'https://644236199a13.ngrok.io/api/v1/accounts/registration/',
+          'https://b0173ba3cce0.ngrok.io/api/v1/accounts/registration/',
           data: {
             'email': register.email,
             'first_name': register.firstName,
