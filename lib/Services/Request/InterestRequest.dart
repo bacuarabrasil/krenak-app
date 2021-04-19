@@ -7,7 +7,7 @@ import 'SessionRequest.dart';
 class InterestRequest {
   Dio dio;
 
-  InterestRequest([Dio client]) : dio = client ?? API.dio;
+  InterestRequest([Dio client]) : dio = client ?? API.shared.dio;
 
   Future<InterestResponse> execute() async {
     var login = await SessionRequest().execute();

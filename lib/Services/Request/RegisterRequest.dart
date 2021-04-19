@@ -7,7 +7,7 @@ import 'package:krenak/Services/API.dart';
 class RegisterRequest {
   Dio dio;
 
-  RegisterRequest([Dio client]) : dio = client ?? API.dio;
+  RegisterRequest([Dio client]) : dio = client ?? API.shared.dio;
 
   Future<LoginResponse> execute(Register register) async {
     try {

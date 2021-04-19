@@ -6,7 +6,7 @@ import 'package:krenak/Services/Request/SessionRequest.dart';
 class LogoutRequest {
   Dio dio;
 
-  LogoutRequest([Dio client]) : dio = client ?? API.dio;
+  LogoutRequest([Dio client]) : dio = client ?? API.shared.dio;
 
   Future<void> execute() async {
     var login = await SessionRequest().execute();

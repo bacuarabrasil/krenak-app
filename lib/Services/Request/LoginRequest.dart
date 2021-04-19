@@ -7,7 +7,7 @@ import 'package:krenak/Services/Response/LoginResponse.dart';
 class LoginRequest {
   Dio dio;
 
-  LoginRequest([Dio client]) : dio = client ?? API.dio;
+  LoginRequest([Dio client]) : dio = client ?? API.shared.dio;
 
   Future<LoginResponse> execute(Login login) async {
     Response response = await dio.post(

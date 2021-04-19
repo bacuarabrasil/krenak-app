@@ -8,7 +8,7 @@ import 'package:krenak/Services/Response/MeResponse.dart';
 class MeRequest {
   Dio dio;
 
-  MeRequest([Dio client]) : dio = client ?? API.dio;
+  MeRequest([Dio client]) : dio = client ?? API.shared.dio;
 
   Future<MeResponse> execute() async {
     var login = await SessionRequest().execute();
