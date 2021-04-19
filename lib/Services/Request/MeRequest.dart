@@ -7,11 +7,14 @@ import 'package:krenak/Services/Response/MeResponse.dart';
 
 class MeRequest {
   Dio dio;
+  SessionRequestType sessionRequest;
 
-  MeRequest([Dio client]) : dio = client ?? API.shared.dio;
+  MeRequest([Dio client, SessionRequestType sessionRequest])
+    : dio = client ?? API.shared.dio,
+    sessionRequest = sessionRequest ?? SessionRequest();
 
   Future<MeResponse> execute() async {
-    var login = await SessionRequest().execute();
+    var login = await sessionRequest.execute();
     var access = login.access;
     dio.options.headers['authorization'] = 'Bearer $access';
     Response response = await dio.get('/accounts/me/');
@@ -23,7 +26,7 @@ class MeRequest {
   }
 
   Future<MeResponse> update(Profile profile) async {
-    var login = await SessionRequest().execute();
+    var login = await sessionRequest.execute();
     var access = login.access;
     dio.options.headers['authorization'] = 'Bearer $access';
     Response response = await dio.patch(

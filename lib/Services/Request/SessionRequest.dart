@@ -1,7 +1,11 @@
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:krenak/Services/Response/LoginResponse.dart';
 
-class SessionRequest {
+abstract class SessionRequestType {
+  Future<LoginResponse> execute();
+}
+
+class SessionRequest implements SessionRequestType {
   Future<LoginResponse> execute() async {
     FlutterSecureStorage storage = FlutterSecureStorage();
     var access = await storage.read(key: 'access');
@@ -10,6 +14,10 @@ class SessionRequest {
     var onboarding = await storage.read(key: 'onboarding');
 
     return LoginResponse(
-        access: access, refresh: refresh, id: id, onboarding: onboarding);
+      access: access,
+      refresh: refresh,
+      id: id,
+      onboarding: onboarding
+    );
   }
 }
