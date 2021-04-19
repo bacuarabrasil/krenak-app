@@ -8,7 +8,7 @@ class LogoutRequest {
     var login = await SessionRequest().execute();
     var access = login.access;
     dio.options.headers['authorization'] = 'Bearer $access';
-    Response response = await dio.post('https://b0173ba3cce0.ngrok.io/api/v1/accounts/login/',);
+    Response response = await dio.post('https://e57cdcaef1ae.ngrok.io/api/v1/accounts/login/',);
     if (response.statusCode == 204) {
       return;
     } else {

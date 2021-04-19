@@ -10,7 +10,7 @@ class MeRequest {
     var login = await SessionRequest().execute();
     var access = login.access;
     dio.options.headers['authorization'] = 'Bearer $access';
-    Response response = await dio.get('https://b0173ba3cce0.ngrok.io/api/v1/accounts/me/');
+    Response response = await dio.get('https://e57cdcaef1ae.ngrok.io/api/v1/accounts/me/');
     if (response.statusCode == 200) {
       return MeResponse.fromJson(response.data);
     } else {
@@ -24,7 +24,7 @@ class MeRequest {
     var access = login.access;
     dio.options.headers['authorization'] = 'Bearer $access';
     Response response = await dio
-        .patch('https://b0173ba3cce0.ngrok.io/api/v1/accounts/me/', data: {
+        .patch('https://e57cdcaef1ae.ngrok.io/api/v1/accounts/me/', data: {
       'email': profile.email ?? '',
       'first_name': profile.firstName ?? '',
       'last_name': profile.lastName ?? ''

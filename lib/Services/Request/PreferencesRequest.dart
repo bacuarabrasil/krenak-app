@@ -16,7 +16,7 @@ class PreferencesRequest {
     dio.options.headers['authorization'] = 'Bearer $access';
 
     Response response = await dio
-        .post('https://644236199a13.ngrok.io/api/v1/enrollments', data: {
+        .post('https://e57cdcaef1ae.ngrok.io/api/v1/enrollments', data: {
       'resume': onboarding.resume,
       'enrollment_type': onboarding.enrollmentType,
       'enrollee': session.id,
