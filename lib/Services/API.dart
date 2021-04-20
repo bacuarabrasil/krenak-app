@@ -4,7 +4,7 @@ class API {
   static var shared = API();
 
   Dio dio = Dio(BaseOptions(
-    baseUrl: 'https://e57cdcaef1ae.ngrok.io/api/v1',
+    baseUrl: 'https://f41926d76302.ngrok.io/api/v1',
     responseType: ResponseType.plain,
     connectTimeout: 30000,
     receiveTimeout: 30000,
