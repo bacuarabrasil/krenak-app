@@ -3,9 +3,7 @@ import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:krenak/Scenes/Onboarding/Interest.dart';
 import 'package:krenak/Scenes/Onboarding/Onboarding.dart';
 
-import 'package:krenak/Scenes/Profile/Profile.dart';
 import 'package:krenak/Services/Request/InterestRequest.dart';
-import 'package:krenak/Services/Request/MeRequest.dart';
 import 'package:krenak/Services/Request/PreferencesRequest.dart';
 
 class OnboardingView extends StatefulWidget {
@@ -35,6 +33,7 @@ class OnboardingViewState extends State<OnboardingView> {
 
   List<Interest> interests = [];
   Onboarding onboarding = Onboarding();
+  String enrollmentType = '';
 
   @override
   Widget build(BuildContext context) {
@@ -54,8 +53,21 @@ class OnboardingViewState extends State<OnboardingView> {
                       Padding(
                         padding: const EdgeInsets.symmetric(vertical: 16.0),
                         child: ElevatedButton(
+                          style: ButtonStyle(
+                            backgroundColor:
+                                MaterialStateProperty.resolveWith<Color>(
+                              (Set<MaterialState> states) {
+                                if (enrollmentType == 'MTR')
+                                  return Colors.green;
+                                return null; // Use the component's default.
+                              },
+                            ),
+                          ),
                           onPressed: () {
                             onboarding.enrollmentType = 'MTR';
+                            setState(() {
+                              enrollmentType = 'MTR';
+                            });
                           },
                           child: Text('Auxiliar Alunos'),
                         ),
@@ -63,8 +75,21 @@ class OnboardingViewState extends State<OnboardingView> {
                       Padding(
                         padding: const EdgeInsets.symmetric(vertical: 16.0),
                         child: ElevatedButton(
+                          style: ButtonStyle(
+                            backgroundColor:
+                                MaterialStateProperty.resolveWith<Color>(
+                              (Set<MaterialState> states) {
+                                if (enrollmentType == 'MTE')
+                                  return Colors.green;
+                                return null; // Use the component's default.
+                              },
+                            ),
+                          ),
                           onPressed: () {
                             onboarding.enrollmentType = 'MTE';
+                            setState(() {
+                              enrollmentType = 'MTE';
+                            });
                           },
                           child: Text('Receber Mentoria'),
                         ),
@@ -78,15 +103,36 @@ class OnboardingViewState extends State<OnboardingView> {
                               scrollDirection: Axis.vertical,
                               shrinkWrap: true,
                               children: interests
-                                  .map((e) => Padding(
+                                  .map((e) => Container(
+                                      margin: new EdgeInsets.symmetric(
+                                          horizontal: 2.0),
+                                      child: Padding(
                                         padding: const EdgeInsets.symmetric(
-                                            vertical: 16.0),
+                                            vertical: 36.0),
                                         child: ElevatedButton(
+                                            style: ButtonStyle(
+                                              backgroundColor:
+                                                  MaterialStateProperty
+                                                      .resolveWith<Color>(
+                                                (Set<MaterialState> states) {
+                                                  if (onboarding.interests
+                                                      .contains(e.id))
+                                                    return Colors.green;
+                                                  return null; // Use the component's default.
+                                                },
+                                              ),
+                                            ),
                                             onPressed: () {
-                                              onboarding.interests.add(e.id);
+                                              if (onboarding.interests
+                                                  .contains(e.id)) {
+                                                onboarding.interests
+                                                    .remove(e.id);
+                                              } else {
+                                                onboarding.interests.add(e.id);
+                                              }
                                             },
                                             child: Text(e.description)),
-                                      ))
+                                      )))
                                   .toList())),
                       Text(
                           "Por que você gostaria de receber/dar essa mentoria?"),

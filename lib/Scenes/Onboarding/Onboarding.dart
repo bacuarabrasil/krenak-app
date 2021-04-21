@@ -1,5 +1,3 @@
-import 'package:krenak/Scenes/Onboarding/Interest.dart';
-
 class Onboarding {
   String resume;
   String enrollmentType;
