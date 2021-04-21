@@ -147,12 +147,13 @@ class OnboardingViewState extends State<OnboardingView> {
                         child: ElevatedButton(
                           onPressed: () async {
                             _formkey.currentState.save();
-                            await PreferencesRequest().execute(onboarding);
-                            FlutterSecureStorage storage =
-                                FlutterSecureStorage();
-                            await storage.write(
-                                key: 'onboarding', value: 'done');
-                            Navigator.pushReplacementNamed(context, '/home');
+                            try {
+                              await PreferencesRequest().execute(onboarding);
+                              await FlutterSecureStorage().write(key: 'onboarding', value: 'done');
+                              Navigator.pushReplacementNamed(context, '/home');
+                            } catch (e) {
+                              print(e);
+                            }
                           },
                           child: Text('Enviar'),
                         ),
