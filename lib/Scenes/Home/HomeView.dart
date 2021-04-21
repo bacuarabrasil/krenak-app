@@ -60,8 +60,19 @@ class HomeViewState extends State<HomeView> {
           ],
         ),
         body: ListView(
+          padding: EdgeInsets.symmetric(vertical: 8.0),
           children: mentorships
-            .map((e) => Text(e.isActive ? "Ativo" : "Não Ativo"))
+            .map((mentorship) => Container(
+              decoration: new BoxDecoration(
+                color: Colors.blue[400],
+                borderRadius: new BorderRadius.circular(8.0)
+              ),
+              margin: EdgeInsets.symmetric(vertical: 8.0, horizontal: 16.0),
+              child: Padding(
+                padding: EdgeInsets.symmetric(vertical: 24.0, horizontal: 24.0),
+                child: Text(mentorship.isActive ? "Ativo" : "Não Ativo")
+              )
+            ))
             .toList(),
         ));
   }
