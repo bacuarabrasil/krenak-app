@@ -1,12 +1,38 @@
 import 'package:flutter/material.dart';
+import 'package:krenak/Services/Request/MentorshipsRequest.dart';
+import 'package:krenak/Services/Response/MentorshipsResponse.dart';
 import 'package:krenak/Services/Store/AuthStore.dart';
 
-class HomeView extends StatelessWidget {
+class HomeView extends StatefulWidget {
+  @override
+  HomeViewState createState() {
+    return HomeViewState();
+  }
+}
+
+class HomeViewState extends State<HomeView> {
+
+  @override
+  void initState() {
+    super.initState();
+
+    var mentorships = MentorshipsRequest().execute();
+    mentorships.then(handleRequest);
+  }
+
+  handleRequest(value) {
+    setState(() {
+      mentorships = value.results;
+    });
+  }
+
+  List<Mentorship> mentorships = [];
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          title: Text('Home'),
+          title: Text('Krenak'),
           actions: <Widget>[
             IconButton(
               icon: Icon(
@@ -16,13 +42,12 @@ class HomeView extends StatelessWidget {
               onPressed: () {
                 Navigator.pushNamed(context, '/profile');
               },
-            )
-          ],
-        ),
-        body: Center(
-          child: Padding(
-            padding: const EdgeInsets.symmetric(vertical: 16.0),
-            child: ElevatedButton(
+            ),
+            IconButton(
+              icon: Icon(
+                Icons.logout,
+                color: Colors.white,
+              ),
               onPressed: () async {
                 try {
                   await AuthStore.shared.logout();
@@ -31,9 +56,13 @@ class HomeView extends StatelessWidget {
                   // Do nothing
                 }
               },
-              child: Text('Logout'),
-            ),
-          ),
+            )
+          ],
+        ),
+        body: ListView(
+          children: mentorships
+            .map((e) => Text(e.isActive ? "Ativo" : "Não Ativo"))
+            .toList(),
         ));
   }
 }
