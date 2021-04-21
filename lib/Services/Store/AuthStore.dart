@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-import 'package:krenak/Scenes/Login/Model/Login.dart';
-import 'package:krenak/Scenes/Register/Model/Register.dart';
+import 'package:krenak/Scenes/Login/Login.dart';
+import 'package:krenak/Scenes/Register/Register.dart';
 import 'package:krenak/Services/Request/LoginRequest.dart';
 import 'package:krenak/Services/Request/LogoutRequest.dart';
 import 'package:krenak/Services/Request/RegisterRequest.dart';

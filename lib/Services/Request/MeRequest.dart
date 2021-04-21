@@ -1,17 +1,23 @@
 import 'package:dio/dio.dart';
-import 'package:krenak/Scenes/Profile/Model/Profile.dart';
+import 'package:krenak/Scenes/Profile/Profile.dart';
+import 'package:krenak/Services/API.dart';
 
 import 'package:krenak/Services/Request/SessionRequest.dart';
 import 'package:krenak/Services/Response/MeResponse.dart';
 
 class MeRequest {
+  Dio dio;
+  SessionRequestType sessionRequest;
+
+  MeRequest([Dio client, SessionRequestType sessionRequest])
+    : dio = client ?? API().dio,
+    sessionRequest = sessionRequest ?? SessionRequest();
 
   Future<MeResponse> execute() async {
-    Dio dio = new Dio();
-    var login = await SessionRequest().execute();
+    var login = await sessionRequest.execute();
     var access = login.access;
     dio.options.headers['authorization'] = 'Bearer $access';
-    Response response = await dio.get('https://304df5e782a6.ngrok.io/api/v1/accounts/me/');
+    Response response = await dio.get('/accounts/me/');
     if (response.statusCode == 200) {
       return MeResponse.fromJson(response.data);
     } else {
@@ -20,12 +26,11 @@ class MeRequest {
   }
 
   Future<MeResponse> update(Profile profile) async {
-    Dio dio = new Dio();
-    var login = await SessionRequest().execute();
+    var login = await sessionRequest.execute();
     var access = login.access;
     dio.options.headers['authorization'] = 'Bearer $access';
     Response response = await dio.patch(
-      'https://304df5e782a6.ngrok.io/api/v1/accounts/me/',
+      '/accounts/me/',
       data: {
         'email': profile.email ?? '',
         'first_name': profile.firstName ?? '',
@@ -38,5 +43,4 @@ class MeRequest {
       throw Exception('Unable to perform request!');
     }
   }
-
 }
