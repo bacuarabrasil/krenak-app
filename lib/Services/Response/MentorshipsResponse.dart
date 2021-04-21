@@ -1,3 +1,5 @@
+import 'package:krenak/Scenes/Onboarding/Interest.dart';
+
 class Enrollee {
   final String firstName;
   final String lastName;
@@ -15,13 +17,18 @@ class Enrollee {
 class Enrollment {
   final String resume;
   final Enrollee enrollee;
+  final List<Interest> interests;
 
-  Enrollment({this.resume, this.enrollee});
+  Enrollment({this.resume, this.enrollee, this.interests});
 
   factory Enrollment.fromJson(Map<String, dynamic> json) {
+    var list = json['interests'] as List;
+    List<Interest> interests = list.map((i) => Interest.fromJson(i)).toList();
+
     return Enrollment(
       resume: json['resume'],
-      enrollee: Enrollee.fromJson(json['enrollee'])
+      enrollee: Enrollee.fromJson(json['enrollee']),
+      interests: interests
     );
   }
 }
