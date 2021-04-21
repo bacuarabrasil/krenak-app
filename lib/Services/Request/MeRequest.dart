@@ -10,7 +10,7 @@ class MeRequest {
   SessionRequestType sessionRequest;
 
   MeRequest([Dio client, SessionRequestType sessionRequest])
-    : dio = client ?? API.shared.dio,
+    : dio = client ?? API().dio,
     sessionRequest = sessionRequest ?? SessionRequest();
 
   Future<MeResponse> execute() async {

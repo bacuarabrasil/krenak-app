@@ -7,7 +7,7 @@ import 'SessionRequest.dart';
 class MentorshipsRequest {
   Dio dio;
 
-  MentorshipsRequest([Dio client]) : dio = client ?? API.shared.dio;
+  MentorshipsRequest([Dio client]) : dio = client ?? API().dio;
 
   Future<MentorshipsResponse> execute() async {
     var login = await SessionRequest().execute();

@@ -70,7 +70,7 @@ class HomeViewState extends State<HomeView> {
               margin: EdgeInsets.symmetric(vertical: 8.0, horizontal: 16.0),
               child: Padding(
                 padding: EdgeInsets.symmetric(vertical: 24.0, horizontal: 24.0),
-                child: Text(mentorship.isActive ? "Ativo" : "Não Ativo")
+                child: Text(mentorship.menteeEnrollment.enrollee.firstName ?? "")
               )
             ))
             .toList(),

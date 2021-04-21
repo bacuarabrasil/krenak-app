@@ -8,7 +8,7 @@ import 'SessionRequest.dart';
 class PreferencesRequest {
   Dio dio;
 
-  PreferencesRequest([Dio client]) : dio = client ?? API.shared.dio;
+  PreferencesRequest([Dio client]) : dio = client ?? API().dio;
 
   Future<void> execute(Onboarding onboarding) async {
     var session = await SessionRequest().execute();
