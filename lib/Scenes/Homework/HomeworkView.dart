@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:krenak/Scenes/Homework/CommentList.dart';
 import 'package:krenak/Scenes/Homework/Homework.dart';
 import 'package:krenak/Scenes/Homework/TaskList.dart';
 
@@ -10,7 +11,6 @@ class HomeworkView extends StatefulWidget {
 }
 
 class HomeworkViewState extends State<HomeworkView> {
-  final _formKey = GlobalKey<FormState>();
 
   @override
   void initState() {
@@ -21,7 +21,9 @@ class HomeworkViewState extends State<HomeworkView> {
     homeworks.add(
       Homework(
         title: 'title',
-        description: 'description'
+        description: 'description',
+        tasks: [Task(title: "eu", done: false), Task(title: "eu", done: true)],
+        comments: [Comment(id: "", name: "Djorkaeff", text: "Texto.")]
       )
     );
   }
@@ -52,11 +54,7 @@ class HomeworkViewState extends State<HomeworkView> {
         body: ListView(
           padding: EdgeInsets.symmetric(vertical: 8.0),
           children: homeworks
-              .map((homework) => InkWell(
-                  onTap: () {
-                    Navigator.pushNamed(context, '/homework');
-                  },
-                  child: Container(
+              .map((homework) => Container(
                       decoration: new BoxDecoration(
                           color: Colors.blue[400],
                           borderRadius: new BorderRadius.circular(8.0)),
@@ -73,7 +71,7 @@ class HomeworkViewState extends State<HomeworkView> {
                                 style: TextStyle(
                                     fontSize: 16,
                                     fontWeight: FontWeight.bold,
-                                    color: Colors.white),
+                                    color: Colors.black),
                               ),
                               SizedBox(height: 16),
                               Text(
@@ -81,13 +79,31 @@ class HomeworkViewState extends State<HomeworkView> {
                                 style: TextStyle(
                                     fontSize: 16,
                                     fontWeight: FontWeight.bold,
-                                    color: Colors.white),
+                                    color: Colors.black),
                               ),
                               SizedBox(height: 16),
-                              TaskListWidget(tasks: [Task(title: "eu", done: false), Task(title: "eu", done: true)])
+                              TaskListWidget(tasks: homework.tasks),
+                              SizedBox(height: 16),
+                              Text(
+                                "Comentários",
+                                style: TextStyle(
+                                    fontSize: 18,
+                                    fontWeight: FontWeight.bold,
+                                    color: Colors.black),
+                              ),
+                              SizedBox(height: 16),
+                              CommentListWidget(comments: homework.comments)
                             ],
-                          )))))
+                          ))))
               .toList(),
-        ));
+        ),
+        floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          // Add your onPressed code here!
+        },
+        child: const Icon(Icons.add),
+        backgroundColor: Colors.blue,
+      ),
+        );
   }
 }

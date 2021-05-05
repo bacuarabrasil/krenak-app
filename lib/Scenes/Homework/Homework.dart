@@ -9,6 +9,7 @@ class Comment {
   factory Comment.fromJson(Map<String, dynamic> json) {
     return Comment(id: json['id'], name: json['name'], text: json['text']);
   }
+
 }
 
 class Task {
@@ -21,19 +22,25 @@ class Task {
   factory Task.fromJson(Map<String, dynamic> json) {
     return Task(title: json['title'], done: json['done']);
   }
+
 }
 
 class Homework {
 
   String title;
   String description;
+  List<Task> tasks;
+  List<Comment> comments;
 
-  Homework({this.title, this.description});
+  Homework({this.title, this.description, this.tasks, this.comments});
 
   factory Homework.fromJson(Map<String, dynamic> json) {
     return Homework(
       title: json['title'],
-      description: json['description']
+      description: json['description'],
+      tasks: [],
+      comments: []
     );
   }
+
 }
