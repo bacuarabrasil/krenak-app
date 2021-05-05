@@ -61,44 +61,45 @@ class HomeViewState extends State<HomeView> {
         body: ListView(
           padding: EdgeInsets.symmetric(vertical: 8.0),
           children: mentorships
-              .map((mentorship) => Container(
-                  decoration: new BoxDecoration(
-                      color: Colors.blue[400],
-                      borderRadius: new BorderRadius.circular(8.0)),
-                  margin: EdgeInsets.symmetric(vertical: 8.0, horizontal: 16.0),
-                  child: Padding(
-                      padding: EdgeInsets.symmetric(
-                          vertical: 24.0, horizontal: 24.0),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: <Widget>[
-                          Text(
-                            mentorship.menteeEnrollment.enrollee.firstName,
-                            style: TextStyle(
-                              fontSize: 16,
-                              fontWeight: FontWeight.bold,
-                              color: Colors.white
-                            ),
-                          ),
-                          SizedBox(height: 16),
-                          Wrap(
-                            spacing: 8.0,
-                            runSpacing: 4.0,
-                            children: mentorship
-                              .menteeEnrollment.interests
-                              .map((e) => Chip(
-                                backgroundColor: Colors.green,
-                                label: Text(
-                                e.description,
+              .map((mentorship) => InkWell(
+                  onTap: () {
+                    Navigator.pushNamed(context, '/homework');
+                  },
+                  child: Container(
+                      decoration: new BoxDecoration(
+                          color: Colors.blue[400],
+                          borderRadius: new BorderRadius.circular(8.0)),
+                      margin:
+                          EdgeInsets.symmetric(vertical: 8.0, horizontal: 16.0),
+                      child: Padding(
+                          padding: EdgeInsets.symmetric(
+                              vertical: 24.0, horizontal: 24.0),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: <Widget>[
+                              Text(
+                                mentorship.menteeEnrollment.enrollee.firstName,
                                 style: TextStyle(
-                                  fontWeight: FontWeight.w600,
-                                  color: Colors.white,
-                                )
-                              )))
-                              .toList()
-                          )
-                        ],
-                      ))))
+                                    fontSize: 16,
+                                    fontWeight: FontWeight.bold,
+                                    color: Colors.white),
+                              ),
+                              SizedBox(height: 16),
+                              Wrap(
+                                  spacing: 8.0,
+                                  runSpacing: 4.0,
+                                  children:
+                                      mentorship.menteeEnrollment.interests
+                                          .map((e) => Chip(
+                                              backgroundColor: Colors.green,
+                                              label: Text(e.description,
+                                                  style: TextStyle(
+                                                    fontWeight: FontWeight.w600,
+                                                    color: Colors.white,
+                                                  ))))
+                                          .toList())
+                            ],
+                          )))))
               .toList(),
         ));
   }

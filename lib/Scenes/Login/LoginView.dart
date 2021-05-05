@@ -50,7 +50,7 @@ class LoginViewState extends State<LoginView> {
                           await AuthStore().loginUser(login);
                           Navigator.pushReplacementNamed(context, '/home');
                         } catch (e) {
-                          // Do nothing
+                          print(e);
                         }
                       },
                       child: Text('Entrar'),

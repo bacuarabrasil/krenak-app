@@ -7,6 +7,7 @@ import 'Scenes/Register/RegisterView.dart';
 import 'Scenes/Home/HomeView.dart';
 import 'Scenes/Onboarding/OnboardingView.dart';
 import 'Scenes/Profile/ProfileView.dart';
+import 'Scenes/Homework/HomeworkView.dart';
 
 class App extends StatelessWidget {
   @override
@@ -32,7 +33,8 @@ class App extends StatelessWidget {
         '/register': (context) => new RegisterView(),
         '/home': (context) => new HomeView(),
         '/profile': (context) => new ProfileView(),
-        '/onboarding': (context) => new OnboardingView()
+        '/onboarding': (context) => new OnboardingView(),
+        '/homework': (context) => new HomeworkView()
       },
     );
   }
