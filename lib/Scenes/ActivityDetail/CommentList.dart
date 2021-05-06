@@ -14,9 +14,7 @@ class _CommentListWidgetState extends State<CommentListWidget> {
   @override
   Widget build(BuildContext context) {
     var comments = widget.comments;
-    return Wrap(
-        spacing: 20,
-        runSpacing: 20,
+    return Column(
         children: comments
             .map((comment) => Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -26,8 +24,7 @@ class _CommentListWidgetState extends State<CommentListWidget> {
                       style: TextStyle(
                           fontSize: 12,
                           fontWeight: FontWeight.bold,
-                          color: Colors.grey
-                      ),
+                          color: Colors.grey),
                     ),
                     SizedBox(height: 4),
                     Text(
@@ -35,12 +32,11 @@ class _CommentListWidgetState extends State<CommentListWidget> {
                       style: TextStyle(
                           fontSize: 16,
                           fontWeight: FontWeight.normal,
-                          color: Colors.grey
-                      ),
+                          color: Colors.grey),
                     ),
+                    SizedBox(height: 8),
                   ],
                 ))
-            .toList()
-    );
+            .toList());
   }
 }
