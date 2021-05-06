@@ -10,6 +10,8 @@ import 'Scenes/Onboarding/OnboardingView.dart';
 import 'Scenes/Profile/ProfileView.dart';
 import 'Scenes/Activity/ActivityView.dart';
 import 'Scenes/ActivityDetail/ActivityDetailView.dart';
+import 'Scenes/ActivityCreate/ActivityCreateView.dart';
+import 'Scenes/TaskCreate/TaskCreateView.dart';
 
 class App extends StatelessWidget {
   @override
@@ -36,8 +38,10 @@ class App extends StatelessWidget {
         '/home': (context) => new HomeView(),
         '/profile': (context) => new ProfileView(),
         '/onboarding': (context) => new OnboardingView(),
-        '/activityDetail': (context) => new ActivityDetailView(),
-        '/activity': (context) => new ActivityView()
+        '/activity/detail': (context) => new ActivityDetailView(),
+        '/activity': (context) => new ActivityView(),
+        '/activity/create': (context) => new ActivityCreateView(),
+        '/task/create': (context) => new TaskCreateView(),
       },
     );
   }

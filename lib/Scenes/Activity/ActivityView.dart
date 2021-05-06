@@ -54,7 +54,7 @@ class ActivityViewState extends State<ActivityView> {
           children: activities
               .map((activity) => InkWell(
                 onTap: () {
-                  Navigator.pushNamed(context, '/activityDetail');
+                  Navigator.pushNamed(context, '/activity/detail');
                 },
                 child: Container(
                       decoration: new BoxDecoration(
@@ -89,7 +89,7 @@ class ActivityViewState extends State<ActivityView> {
         ),
         floatingActionButton: FloatingActionButton(
         onPressed: () {
-          // Add your onPressed code here!
+          Navigator.pushNamed(context, '/activity/create');
         },
         child: const Icon(Icons.add),
         backgroundColor: Colors.blue,

@@ -69,7 +69,7 @@ class ActivityDetailViewState extends State<ActivityDetailView> {
               ))),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          // Add your onPressed code here!
+          Navigator.pushNamed(context, '/task/create');
         },
         child: const Icon(Icons.add),
         backgroundColor: Colors.blue,
