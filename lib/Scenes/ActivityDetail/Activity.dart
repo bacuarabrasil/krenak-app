@@ -25,17 +25,17 @@ class Task {
 
 }
 
-class Homework {
+class Activity {
 
   String title;
   String description;
   List<Task> tasks;
   List<Comment> comments;
 
-  Homework({this.title, this.description, this.tasks, this.comments});
+  Activity({this.title, this.description, this.tasks, this.comments});
 
-  factory Homework.fromJson(Map<String, dynamic> json) {
-    return Homework(
+  factory Activity.fromJson(Map<String, dynamic> json) {
+    return Activity(
       title: json['title'],
       description: json['description'],
       tasks: [],

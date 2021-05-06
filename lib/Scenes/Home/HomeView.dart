@@ -63,7 +63,7 @@ class HomeViewState extends State<HomeView> {
           children: mentorships
               .map((mentorship) => InkWell(
                   onTap: () {
-                    Navigator.pushNamed(context, '/homework');
+                    Navigator.pushNamed(context, '/activity');
                   },
                   child: Container(
                       decoration: new BoxDecoration(

@@ -1,16 +1,14 @@
 import 'package:flutter/material.dart';
-import 'package:krenak/Scenes/Homework/CommentList.dart';
-import 'package:krenak/Scenes/Homework/Homework.dart';
-import 'package:krenak/Scenes/Homework/TaskList.dart';
+import 'package:krenak/Scenes/ActivityDetail/Activity.dart';
 
-class HomeworkView extends StatefulWidget {
+class ActivityView extends StatefulWidget {
   @override
-  HomeworkViewState createState() {
-    return HomeworkViewState();
+  ActivityViewState createState() {
+    return ActivityViewState();
   }
 }
 
-class HomeworkViewState extends State<HomeworkView> {
+class ActivityViewState extends State<ActivityView> {
 
   @override
   void initState() {
@@ -18,8 +16,8 @@ class HomeworkViewState extends State<HomeworkView> {
     // var me = MeRequest().execute();
     // me.then(handleRequest);
 
-    homeworks.add(
-      Homework(
+    activities.add(
+      Activity(
         title: 'title',
         description: 'description',
         tasks: [Task(title: "eu", done: false), Task(title: "eu", done: true)],
@@ -43,7 +41,7 @@ class HomeworkViewState extends State<HomeworkView> {
     // });
   }
 
-  List<Homework> homeworks = [];
+  List<Activity> activities = [];
 
   @override
   Widget build(BuildContext context) {
@@ -53,8 +51,12 @@ class HomeworkViewState extends State<HomeworkView> {
         ),
         body: ListView(
           padding: EdgeInsets.symmetric(vertical: 8.0),
-          children: homeworks
-              .map((homework) => Container(
+          children: activities
+              .map((activity) => InkWell(
+                onTap: () {
+                  Navigator.pushNamed(context, '/activityDetail');
+                },
+                child: Container(
                       decoration: new BoxDecoration(
                           color: Colors.blue[400],
                           borderRadius: new BorderRadius.circular(8.0)),
@@ -67,7 +69,7 @@ class HomeworkViewState extends State<HomeworkView> {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: <Widget>[
                               Text(
-                                homework.title,
+                                activity.title,
                                 style: TextStyle(
                                     fontSize: 16,
                                     fontWeight: FontWeight.bold,
@@ -75,26 +77,14 @@ class HomeworkViewState extends State<HomeworkView> {
                               ),
                               SizedBox(height: 16),
                               Text(
-                                homework.description,
+                                activity.description,
                                 style: TextStyle(
                                     fontSize: 16,
                                     fontWeight: FontWeight.bold,
                                     color: Colors.black),
                               ),
-                              SizedBox(height: 16),
-                              TaskListWidget(tasks: homework.tasks),
-                              SizedBox(height: 16),
-                              Text(
-                                "Comentários",
-                                style: TextStyle(
-                                    fontSize: 18,
-                                    fontWeight: FontWeight.bold,
-                                    color: Colors.black),
-                              ),
-                              SizedBox(height: 16),
-                              CommentListWidget(comments: homework.comments)
                             ],
-                          ))))
+                          )))))
               .toList(),
         ),
         floatingActionButton: FloatingActionButton(

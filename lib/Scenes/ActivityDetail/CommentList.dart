@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:krenak/Scenes/Homework/Homework.dart';
+import 'package:krenak/Scenes/ActivityDetail/Activity.dart';
 
 class CommentListWidget extends StatefulWidget {
   final List<Comment> comments;
@@ -26,7 +26,8 @@ class _CommentListWidgetState extends State<CommentListWidget> {
                       style: TextStyle(
                           fontSize: 12,
                           fontWeight: FontWeight.bold,
-                          color: Colors.white),
+                          color: Colors.grey
+                      ),
                     ),
                     SizedBox(height: 4),
                     Text(
@@ -34,10 +35,12 @@ class _CommentListWidgetState extends State<CommentListWidget> {
                       style: TextStyle(
                           fontSize: 16,
                           fontWeight: FontWeight.normal,
-                          color: Colors.white),
+                          color: Colors.grey
+                      ),
                     ),
                   ],
                 ))
-            .toList());
+            .toList()
+    );
   }
 }

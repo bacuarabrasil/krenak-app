@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:krenak/Scenes/ActivityDetail/ActivityDetailView.dart';
 import 'package:krenak/Services/Response/LoginResponse.dart';
 import 'package:krenak/Services/Store/AuthStore.dart';
 
@@ -7,7 +8,8 @@ import 'Scenes/Register/RegisterView.dart';
 import 'Scenes/Home/HomeView.dart';
 import 'Scenes/Onboarding/OnboardingView.dart';
 import 'Scenes/Profile/ProfileView.dart';
-import 'Scenes/Homework/HomeworkView.dart';
+import 'Scenes/Activity/ActivityView.dart';
+import 'Scenes/ActivityDetail/ActivityDetailView.dart';
 
 class App extends StatelessWidget {
   @override
@@ -34,7 +36,8 @@ class App extends StatelessWidget {
         '/home': (context) => new HomeView(),
         '/profile': (context) => new ProfileView(),
         '/onboarding': (context) => new OnboardingView(),
-        '/homework': (context) => new HomeworkView()
+        '/activityDetail': (context) => new ActivityDetailView(),
+        '/activity': (context) => new ActivityView()
       },
     );
   }

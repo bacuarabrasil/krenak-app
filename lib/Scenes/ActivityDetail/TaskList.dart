@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:krenak/Scenes/Homework/Homework.dart';
+import 'package:krenak/Scenes/ActivityDetail/Activity.dart';
 
 class TaskListWidget extends StatefulWidget {
   final List<Task> tasks;
