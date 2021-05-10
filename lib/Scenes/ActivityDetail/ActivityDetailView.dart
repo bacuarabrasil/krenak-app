@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:krenak/Scenes/ActivityDetail/CommentList.dart';
 import 'package:krenak/Scenes/ActivityDetail/Activity.dart';
 import 'package:krenak/Scenes/ActivityDetail/TaskList.dart';
+import 'package:krenak/Services/Request/MeRequest.dart';
 
 class ActivityDetailView extends StatefulWidget {
   @override
@@ -98,13 +99,15 @@ class ActivityDetailViewState extends State<ActivityDetailView> {
                   ],
                 ))),
       ]),
-      floatingActionButton: FloatingActionButton(
+      floatingActionButton: Visibility(
+        visible: MeRequest.shared.meResponse.role == 'MTR',
+        child: FloatingActionButton(
         onPressed: () {
           Navigator.pushNamed(context, '/task/create');
         },
         child: const Icon(Icons.add),
         backgroundColor: Colors.blue,
-      ),
+      )),
     );
   }
 }

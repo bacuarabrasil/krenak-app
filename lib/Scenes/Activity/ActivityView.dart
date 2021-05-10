@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:krenak/Scenes/ActivityDetail/Activity.dart';
+import 'package:krenak/Services/Request/MeRequest.dart';
 
 class ActivityView extends StatefulWidget {
   @override
@@ -87,13 +88,15 @@ class ActivityViewState extends State<ActivityView> {
                           )))))
               .toList(),
         ),
-        floatingActionButton: FloatingActionButton(
+        floatingActionButton: Visibility(
+          visible: MeRequest.shared.meResponse.role == 'MTR',
+          child: FloatingActionButton(
         onPressed: () {
           Navigator.pushNamed(context, '/activity/create');
         },
         child: const Icon(Icons.add),
         backgroundColor: Colors.blue,
-      ),
+      )),
         );
   }
 }

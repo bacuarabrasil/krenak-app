@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:krenak/Scenes/ActivityDetail/ActivityDetailView.dart';
+import 'package:krenak/Services/Request/MeRequest.dart';
 import 'package:krenak/Services/Response/LoginResponse.dart';
 import 'package:krenak/Services/Store/AuthStore.dart';
 
@@ -24,6 +25,7 @@ class App extends StatelessWidget {
             if (snapshot.hasData) {
               var user = snapshot.data;
               if (user.access != null && user.refresh != null) {
+                MeRequest.shared.execute();
                 if (user.onboarding != 'done') {
                   return OnboardingView();
                 }

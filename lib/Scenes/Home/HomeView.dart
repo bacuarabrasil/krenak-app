@@ -50,10 +50,10 @@ class HomeViewState extends State<HomeView> {
               onPressed: () async {
                 try {
                   await AuthStore.shared.logout();
-                  Navigator.pushReplacementNamed(context, '/login');
                 } catch (e) {
                   // Do nothing
                 }
+                Navigator.pushReplacementNamed(context, '/login');
               },
             )
           ],

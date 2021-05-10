@@ -4,12 +4,14 @@ class MeResponse {
   final String firstName;
   final String lastName;
   final String birthdate;
+  final String role;
 
   MeResponse({
     this.email,
     this.firstName,
     this.lastName,
-    this.birthdate
+    this.birthdate,
+    this.role
   });
 
   factory MeResponse.fromJson(Map<String, dynamic> json) {
@@ -17,7 +19,8 @@ class MeResponse {
       email: json['email'],
       firstName: json['first_name'],
       lastName: json['last_name'],
-      birthdate: json['birthdate']
+      birthdate: json['birthdate'],
+      role: json['role']
     );
   }
 }

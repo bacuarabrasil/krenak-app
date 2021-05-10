@@ -21,8 +21,8 @@ class ProfileViewState extends State<ProfileView> {
   @override
   void initState() {
     super.initState();
-    var me = MeRequest().execute();
-    me.then(handleRequest);
+    var me = MeRequest.shared.meResponse;
+    handleRequest(me);
   }
 
   handleRequest(value) {
