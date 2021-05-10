@@ -88,8 +88,10 @@ class ActivityViewState extends State<ActivityView> {
         floatingActionButton: Visibility(
           visible: MeRequest.shared.meResponse.role == 'MTR',
           child: FloatingActionButton(
-        onPressed: () {
-          Navigator.pushNamed(context, '/activity/create');
+        onPressed: () async {
+          await Navigator.pushNamed(context, '/activity/create');
+          var value = ActivityRequest().getActivities();
+          value.then(handleRequest);
         },
         child: const Icon(Icons.add),
         backgroundColor: Colors.blue,

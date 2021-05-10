@@ -70,7 +70,17 @@ class ActivityDetailView extends State<ActivityDetail> {
                     ),
                     SizedBox(height: 16),
                     TaskListWidget(tasks: activity.tasks, callback: (id) {
-                      print(id);
+                      var newTasks = activity.tasks;
+                      newTasks[id].done = !newTasks[id].done;
+                      handleRequest(Activity(
+                        id: activity.id,
+                        title: activity.title,
+                        description: activity.description,
+                        tasks: newTasks,
+                        comments: activity.comments
+                      ));
+                      var value = ActivityRequest().getActivity(widget.id);
+                      value.then(handleRequest);
                     }),
                     SizedBox(height: 16),
                     Text(
@@ -112,12 +122,14 @@ class ActivityDetailView extends State<ActivityDetail> {
       floatingActionButton: Visibility(
         visible: MeRequest.shared.meResponse.role == 'MTR',
         child: FloatingActionButton(
-        onPressed: () {
-          Navigator.pushNamed(
+        onPressed: () async {
+          await Navigator.pushNamed(
             context,
             '/task/create',
             arguments: TaskCreateViewArguments(activity.id)
           );
+          var value = ActivityRequest().getActivity(widget.id);
+          value.then(handleRequest);
         },
         child: const Icon(Icons.add),
         backgroundColor: Colors.blue,

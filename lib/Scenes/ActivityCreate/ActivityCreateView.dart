@@ -31,14 +31,12 @@ class ActivityCreateViewState extends State<ActivityCreateView> {
                     onSaved: (String value) {
                       activity.title = value;
                     },
-                    keyboardType: TextInputType.emailAddress,
                   ),
                   TextFormField(
                     decoration: InputDecoration(hintText: 'Descrição'),
                     onSaved: (String value) {
                       activity.description = value;
                     },
-                    obscureText: true,
                   ),
                   Padding(
                     padding: const EdgeInsets.symmetric(vertical: 16.0),
