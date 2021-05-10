@@ -1,11 +1,13 @@
+import 'dart:core';
 import 'package:flutter/material.dart';
 import 'package:krenak/Scenes/ActivityDetail/Activity.dart';
 import 'package:krenak/Services/Request/TaskRequest.dart';
 
 class TaskListWidget extends StatefulWidget {
   final List<Task> tasks;
+  final Function(int) callback;
 
-  const TaskListWidget({this.tasks});
+  const TaskListWidget({this.tasks, this.callback});
 
   @override
   _TaskListWidgetState createState() => _TaskListWidgetState();
@@ -19,7 +21,7 @@ class _TaskListWidgetState extends State<TaskListWidget> {
         spacing: 20,
         runSpacing: 20,
         children: tasks
-            .map((task) => ElevatedButton(
+            .mapIndexed((task, index) => ElevatedButton(
                   style: ButtonStyle(
                     backgroundColor: MaterialStateProperty.resolveWith<Color>(
                       (Set<MaterialState> states) {
@@ -36,6 +38,7 @@ class _TaskListWidgetState extends State<TaskListWidget> {
                     } catch (e) {
 
                     }
+                    widget.callback(index);
                   },
                   child: Row(
                     children: <Widget>[
@@ -57,5 +60,12 @@ class _TaskListWidgetState extends State<TaskListWidget> {
                   ),
                 ))
             .toList());
+  }
+}
+
+extension IndexedIterable<E> on Iterable<E> {
+  Iterable<T> mapIndexed<T>(T Function(E e, int i) f) {
+    var i = 0;
+    return map((e) => f(e, i++));
   }
 }

@@ -3,6 +3,7 @@ import 'package:krenak/Scenes/ActivityDetail/CommentList.dart';
 import 'package:krenak/Scenes/ActivityDetail/Activity.dart';
 import 'package:krenak/Scenes/ActivityDetail/TaskList.dart';
 import 'package:krenak/Scenes/TaskCreate/TaskCreateView.dart';
+import 'package:krenak/Services/Request/ActivityRequest.dart';
 import 'package:krenak/Services/Request/MeRequest.dart';
 
 class ActivityDetailViewArguments {
@@ -11,11 +12,34 @@ class ActivityDetailViewArguments {
   ActivityDetailViewArguments(this.activity);
 }
 
-class ActivityDetailView extends StatelessWidget {
+class ActivityDetail extends StatefulWidget {
+  final String id;
+
+  ActivityDetail({Key key, @required this.id}) : super(key: key);
+
+  @override
+  ActivityDetailView createState() => new ActivityDetailView();
+}
+
+class ActivityDetailView extends State<ActivityDetail> {
+
+  @override
+  void initState() {
+    super.initState();
+    var value = ActivityRequest().getActivity(widget.id);
+    value.then(handleRequest);
+  }
+
+  handleRequest(value) {
+    setState(() {
+      activity = value;
+    });
+  }
+
+  Activity activity = Activity(title: '', description: '', tasks: [], comments: []);
+
   @override
   Widget build(BuildContext context) {
-    final ActivityDetailViewArguments args = ModalRoute.of(context).settings.arguments as ActivityDetailViewArguments;
-
     return Scaffold(
       resizeToAvoidBottomInset: false,
       appBar: AppBar(
@@ -30,7 +54,7 @@ class ActivityDetailView extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
                     Text(
-                      args.activity.title,
+                      activity.title,
                       style: TextStyle(
                           fontSize: 16,
                           fontWeight: FontWeight.bold,
@@ -38,14 +62,16 @@ class ActivityDetailView extends StatelessWidget {
                     ),
                     SizedBox(height: 16),
                     Text(
-                      args.activity.description,
+                      activity.description,
                       style: TextStyle(
                           fontSize: 16,
                           fontWeight: FontWeight.bold,
                           color: Colors.black),
                     ),
                     SizedBox(height: 16),
-                    TaskListWidget(tasks: args.activity.tasks),
+                    TaskListWidget(tasks: activity.tasks, callback: (id) {
+                      print(id);
+                    }),
                     SizedBox(height: 16),
                     Text(
                       "Comentários",
@@ -55,7 +81,7 @@ class ActivityDetailView extends StatelessWidget {
                           color: Colors.black),
                     ),
                     SizedBox(height: 16),
-                    CommentListWidget(comments: args.activity.comments),
+                    CommentListWidget(comments: activity.comments),
                     SizedBox(height: 16),
                     Row(mainAxisAlignment: MainAxisAlignment.end, children: [
                       // First child is enter comment text input
@@ -90,7 +116,7 @@ class ActivityDetailView extends StatelessWidget {
           Navigator.pushNamed(
             context,
             '/task/create',
-            arguments: TaskCreateViewArguments(args.activity.id)
+            arguments: TaskCreateViewArguments(activity.id)
           );
         },
         child: const Icon(Icons.add),

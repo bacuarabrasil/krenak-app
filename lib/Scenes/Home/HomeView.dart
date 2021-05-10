@@ -64,10 +64,11 @@ class HomeViewState extends State<HomeView> {
           children: mentorships
               .map((mentorship) => InkWell(
                   onTap: () {
-                    Navigator.pushNamed(
-                      context,
-                      '/activity',
-                      arguments: ActivityViewArguments(mentorship.activities)
+                    Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => ActivityView(id: mentorship.id),
+                    )
                     );
                   },
                   child: Container(

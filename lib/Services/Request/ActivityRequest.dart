@@ -36,4 +36,32 @@ class ActivityRequest {
       throw Exception('Unable to perform request!');
     }
   }
+
+  Future<Activity> getActivity(String id) async {
+    var login = await SessionRequest().execute();
+    var access = login.access;
+    dio.options.headers['authorization'] = 'Bearer $access';
+
+    Response response = await dio.get('/activities/' + id + '/');
+    if (response.statusCode == 200) {
+      return Activity.fromJson(response.data);
+    } else {
+      throw Exception('Unable to perform request!');
+    }
+  }
+
+  Future<List<Activity>> getActivities() async {
+    var login = await SessionRequest().execute();
+    var access = login.access;
+    dio.options.headers['authorization'] = 'Bearer $access';
+
+    Response response = await dio.get('/activities/');
+    if (response.statusCode == 200) {
+      var list = response.data['results'] as List;
+      List<Activity> results = list.map((i) => Activity.fromJson(i)).toList();
+      return results;
+    } else {
+      throw Exception('Unable to perform request!');
+    }
+  }
 }

@@ -35,12 +35,14 @@ class Enrollment {
 }
 
 class Mentorship {
+  final String id;
   final bool isActive;
   final Enrollment mentorEnrollment;
   final Enrollment menteeEnrollment;
   final List<Activity> activities;
 
   Mentorship({
+    this.id,
     this.isActive,
     this.mentorEnrollment,
     this.menteeEnrollment,
@@ -51,6 +53,7 @@ class Mentorship {
     var list = json['activities'] as List;
     List<Activity> activities = list.map((i) => Activity.fromJson(i)).toList();
     return Mentorship(
+      id: json['id'].toString(),
       isActive: json['is_active'],
       mentorEnrollment: Enrollment.fromJson(json['mentor_enrollment']),
       menteeEnrollment: Enrollment.fromJson(json['mentee_enrollment']),

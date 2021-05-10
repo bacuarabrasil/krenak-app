@@ -1,33 +1,57 @@
 import 'package:flutter/material.dart';
 import 'package:krenak/Scenes/ActivityDetail/Activity.dart';
 import 'package:krenak/Scenes/ActivityDetail/ActivityDetailView.dart';
+import 'package:krenak/Services/Request/ActivityRequest.dart';
 import 'package:krenak/Services/Request/MeRequest.dart';
 
-class ActivityViewArguments {
-  final List<Activity> activities;
+// class ActivityViewArguments {
+//   final String id;
 
-  ActivityViewArguments(this.activities);
+//   ActivityViewArguments(this.activities);
+// }
+
+class ActivityView extends StatefulWidget {
+  final String id;
+
+  ActivityView({Key key, @required this.id}) : super(key: key);
+
+  @override
+  ActivityViewState createState() => new ActivityViewState();
 }
 
-class ActivityView extends StatelessWidget {
+class ActivityViewState extends State<ActivityView> {
+
+  @override
+  void initState() {
+    super.initState();
+    var value = ActivityRequest().getActivities();
+    value.then(handleRequest);
+  }
+
+  handleRequest(value) {
+    setState(() {
+      activities = value;
+    });
+  }
+
+  List<Activity> activities = [];
 
   @override
   Widget build(BuildContext context) {
-    final ActivityViewArguments args = ModalRoute.of(context).settings.arguments as ActivityViewArguments;
-
     return Scaffold(
         appBar: AppBar(
           title: Text('Atividades'),
         ),
         body: ListView(
           padding: EdgeInsets.symmetric(vertical: 8.0),
-          children: args.activities
+          children: activities
               .map((activity) => InkWell(
                 onTap: () {
-                  Navigator.pushNamed(
+                  Navigator.push(
                     context,
-                    '/activity/detail',
-                    arguments: ActivityDetailViewArguments(activity)
+                    MaterialPageRoute(
+                      builder: (context) => ActivityDetail(id: activity.id),
+                    )
                   );
                 },
                 child: Container(
