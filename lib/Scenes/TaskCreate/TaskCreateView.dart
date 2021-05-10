@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:krenak/Scenes/ActivityDetail/Activity.dart';
+import 'package:krenak/Services/Request/TaskRequest.dart';
 
 class TaskCreateView extends StatefulWidget {
   @override
@@ -36,6 +37,12 @@ class TaskCreateViewState extends State<TaskCreateView> {
                     padding: const EdgeInsets.symmetric(vertical: 16.0),
                     child: ElevatedButton(
                       onPressed: () async {
+                        _formKey.currentState.save();
+                        try {
+                          await TaskRequest().execute(TaskBody(title: task.title));
+                        } catch (e) {
+
+                        }
                         Navigator.pop(context);
                       },
                       child: Text('Criar'),

@@ -1,61 +1,34 @@
 import 'package:flutter/material.dart';
 import 'package:krenak/Scenes/ActivityDetail/Activity.dart';
+import 'package:krenak/Scenes/ActivityDetail/ActivityDetailView.dart';
 import 'package:krenak/Services/Request/MeRequest.dart';
 
-class ActivityView extends StatefulWidget {
-  @override
-  ActivityViewState createState() {
-    return ActivityViewState();
-  }
+class ActivityViewArguments {
+  final List<Activity> activities;
+
+  ActivityViewArguments(this.activities);
 }
 
-class ActivityViewState extends State<ActivityView> {
-
-  @override
-  void initState() {
-    super.initState();
-    // var me = MeRequest().execute();
-    // me.then(handleRequest);
-
-    activities.add(
-      Activity(
-        title: 'title',
-        description: 'description',
-        tasks: [Task(title: "eu", done: false), Task(title: "eu", done: true)],
-        comments: [Comment(id: "", name: "Djorkaeff", text: "Texto.")]
-      )
-    );
-  }
-
-  handleRequest(value) {
-    // var profile = Profile(
-    //     email: value.email,
-    //     firstName: value.firstName,
-    //     lastName: value.lastName,
-    //     birthdate: value.birthdate);
-    // _emailController.text = profile.email;
-    // _firstNameController.text = profile.firstName;
-    // _lastNameController.text = profile.lastName;
-    // _birthdateController.text = profile.birthdate;
-    // setState(() {
-    //   profile = profile;
-    // });
-  }
-
-  List<Activity> activities = [];
+class ActivityView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final ActivityViewArguments args = ModalRoute.of(context).settings.arguments as ActivityViewArguments;
+
     return Scaffold(
         appBar: AppBar(
           title: Text('Atividades'),
         ),
         body: ListView(
           padding: EdgeInsets.symmetric(vertical: 8.0),
-          children: activities
+          children: args.activities
               .map((activity) => InkWell(
                 onTap: () {
-                  Navigator.pushNamed(context, '/activity/detail');
+                  Navigator.pushNamed(
+                    context,
+                    '/activity/detail',
+                    arguments: ActivityDetailViewArguments(activity)
+                  );
                 },
                 child: Container(
                       decoration: new BoxDecoration(

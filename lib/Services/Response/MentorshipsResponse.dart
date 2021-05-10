@@ -1,3 +1,4 @@
+import 'package:krenak/Scenes/ActivityDetail/Activity.dart';
 import 'package:krenak/Scenes/Onboarding/Interest.dart';
 
 class Enrollee {
@@ -37,18 +38,23 @@ class Mentorship {
   final bool isActive;
   final Enrollment mentorEnrollment;
   final Enrollment menteeEnrollment;
+  final List<Activity> activities;
 
   Mentorship({
     this.isActive,
     this.mentorEnrollment,
-    this.menteeEnrollment
+    this.menteeEnrollment,
+    this.activities
   });
 
   factory Mentorship.fromJson(Map<String, dynamic> json) {
+    var list = json['activities'] as List;
+    List<Activity> activities = list.map((i) => Activity.fromJson(i)).toList();
     return Mentorship(
       isActive: json['is_active'],
       mentorEnrollment: Enrollment.fromJson(json['mentor_enrollment']),
-      menteeEnrollment: Enrollment.fromJson(json['mentee_enrollment'])
+      menteeEnrollment: Enrollment.fromJson(json['mentee_enrollment']),
+      activities: activities
     );
   }
 }

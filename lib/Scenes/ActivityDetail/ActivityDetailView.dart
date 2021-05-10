@@ -4,34 +4,35 @@ import 'package:krenak/Scenes/ActivityDetail/Activity.dart';
 import 'package:krenak/Scenes/ActivityDetail/TaskList.dart';
 import 'package:krenak/Services/Request/MeRequest.dart';
 
-class ActivityDetailView extends StatefulWidget {
-  @override
-  ActivityDetailViewState createState() {
-    return ActivityDetailViewState();
-  }
+class ActivityDetailViewArguments {
+  final Activity activity;
+
+  ActivityDetailViewArguments(this.activity);
 }
 
-class ActivityDetailViewState extends State<ActivityDetailView> {
-  @override
-  void initState() {
-    super.initState();
+class ActivityDetailView extends StatelessWidget {
+  // @override
+  // void initState() {
+  //   super.initState();
 
-    activity = Activity(
-        title: 'title',
-        description: 'description',
-        tasks: [Task(title: "eu", done: false), Task(title: "eu", done: true)],
-        comments: [
-          Comment(id: "", name: "Djorkaeff", text: "Texto."),
-          Comment(id: "", name: "Djorkaeff", text: "Texto."),
-          Comment(id: "", name: "Djorkaeff", text: "Texto.")
-        ]
-    );
-  }
+  //   activity = Activity(
+  //       title: 'title',
+  //       description: 'description',
+  //       tasks: [Task(title: "eu", done: false), Task(title: "eu", done: true)],
+  //       comments: [
+  //         Comment(id: "", name: "Djorkaeff", text: "Texto."),
+  //         Comment(id: "", name: "Djorkaeff", text: "Texto."),
+  //         Comment(id: "", name: "Djorkaeff", text: "Texto.")
+  //       ]
+  //   );
+  // }
 
-  Activity activity;
+  // Activity activity;
 
   @override
   Widget build(BuildContext context) {
+    final ActivityDetailViewArguments args = ModalRoute.of(context).settings.arguments as ActivityDetailViewArguments;
+
     return Scaffold(
       resizeToAvoidBottomInset: false,
       appBar: AppBar(
@@ -46,7 +47,7 @@ class ActivityDetailViewState extends State<ActivityDetailView> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
                     Text(
-                      activity.title,
+                      args.activity.title,
                       style: TextStyle(
                           fontSize: 16,
                           fontWeight: FontWeight.bold,
@@ -54,14 +55,14 @@ class ActivityDetailViewState extends State<ActivityDetailView> {
                     ),
                     SizedBox(height: 16),
                     Text(
-                      activity.description,
+                      args.activity.description,
                       style: TextStyle(
                           fontSize: 16,
                           fontWeight: FontWeight.bold,
                           color: Colors.black),
                     ),
                     SizedBox(height: 16),
-                    TaskListWidget(tasks: activity.tasks),
+                    TaskListWidget(tasks: args.activity.tasks),
                     SizedBox(height: 16),
                     Text(
                       "Comentários",
@@ -71,7 +72,7 @@ class ActivityDetailViewState extends State<ActivityDetailView> {
                           color: Colors.black),
                     ),
                     SizedBox(height: 16),
-                    CommentListWidget(comments: activity.comments),
+                    CommentListWidget(comments: args.activity.comments),
                     SizedBox(height: 16),
                     Row(mainAxisAlignment: MainAxisAlignment.end, children: [
                       // First child is enter comment text input

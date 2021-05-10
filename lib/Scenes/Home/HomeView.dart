@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:krenak/Scenes/Activity/ActivityView.dart';
 import 'package:krenak/Services/Request/MentorshipsRequest.dart';
 import 'package:krenak/Services/Response/MentorshipsResponse.dart';
 import 'package:krenak/Services/Store/AuthStore.dart';
@@ -63,7 +64,11 @@ class HomeViewState extends State<HomeView> {
           children: mentorships
               .map((mentorship) => InkWell(
                   onTap: () {
-                    Navigator.pushNamed(context, '/activity');
+                    Navigator.pushNamed(
+                      context,
+                      '/activity',
+                      arguments: ActivityViewArguments(mentorship.activities)
+                    );
                   },
                   child: Container(
                       decoration: new BoxDecoration(

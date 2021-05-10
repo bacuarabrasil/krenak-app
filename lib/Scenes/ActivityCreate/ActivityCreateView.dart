@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:krenak/Scenes/ActivityDetail/Activity.dart';
+import 'package:krenak/Services/Request/ActivityRequest.dart';
 
 class ActivityCreateView extends StatefulWidget {
   @override
@@ -43,6 +44,12 @@ class ActivityCreateViewState extends State<ActivityCreateView> {
                     padding: const EdgeInsets.symmetric(vertical: 16.0),
                     child: ElevatedButton(
                       onPressed: () async {
+                        _formKey.currentState.save();
+                        ActivityRequest().execute(ActivityBody(
+                          title: activity.title,
+                          description: activity.description,
+                          mentorship: '8'
+                        ));
                         Navigator.pop(context);
                       },
                       child: Text('Criar'),
