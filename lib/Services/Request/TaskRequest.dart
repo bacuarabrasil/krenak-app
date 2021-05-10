@@ -11,6 +11,13 @@ class TaskBody {
   TaskBody({this.title, this.activity});
 }
 
+class TaskPatch {
+  final String id;
+  final bool done;
+
+  TaskPatch({this.id, this.done});
+}
+
 class TaskRequest {
   Dio dio;
 
@@ -28,6 +35,24 @@ class TaskRequest {
         'title': body.title,
         'done': false,
         'activity': body.activity
+      }
+    );
+    if (response.statusCode == 201) {
+      return Task.fromJson(response.data);
+    } else {
+      throw Exception('Unable to perform request!');
+    }
+  }
+
+  Future<Task> executePath(TaskPatch body) async {
+     var login = await SessionRequest().execute();
+    var access = login.access;
+    dio.options.headers['authorization'] = 'Bearer $access';
+
+    Response response = await dio.patch(
+      '/tasks/' + body.id + '/',
+      data: {
+        'done': body.done,
       }
     );
     if (response.statusCode == 201) {

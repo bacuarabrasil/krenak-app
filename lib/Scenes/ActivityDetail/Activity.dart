@@ -1,45 +1,63 @@
+class Author {
+  String firstName;
+
+  Author({this.firstName});
+
+  factory Author.fromJson(Map<String, dynamic> json) {
+    return Author(firstName: json['first_name']);
+  }
+}
+
 class Comment {
 
   String id;
-  String name;
+  Author author;
   String text;
 
-  Comment({this.id, this.name, this.text});
+  Comment({this.id, this.author, this.text});
 
   factory Comment.fromJson(Map<String, dynamic> json) {
-    return Comment(id: json['id'], name: json['name'], text: json['text']);
+    return Comment(id: json['id'].toString(), author: Author.fromJson(json['author']), text: json['text']);
   }
 
 }
 
 class Task {
 
+  String id;
   String title;
   bool done;
 
-  Task({this.title, this.done});
+  Task({this.id, this.title, this.done});
 
   factory Task.fromJson(Map<String, dynamic> json) {
-    return Task(title: json['title'], done: json['done']);
+    return Task(id: json['id'].toString(), title: json['title'], done: json['done']);
   }
 
 }
 
 class Activity {
 
+  String id;
   String title;
   String description;
   List<Task> tasks;
   List<Comment> comments;
 
-  Activity({this.title, this.description, this.tasks, this.comments});
+  Activity({this.id, this.title, this.description, this.tasks, this.comments});
 
   factory Activity.fromJson(Map<String, dynamic> json) {
+    var listTasks = json['tasks'] as List;
+    List<Task> tasks = listTasks.map((i) => Task.fromJson(i)).toList();
+
+    var listComments = json['comments'] as List;
+    List<Comment> comments = listComments.map((i) => Comment.fromJson(i)).toList();
     return Activity(
+      id: json['id'].toString(),
       title: json['title'],
       description: json['description'],
-      tasks: [],
-      comments: []
+      tasks: tasks,
+      comments: comments
     );
   }
 

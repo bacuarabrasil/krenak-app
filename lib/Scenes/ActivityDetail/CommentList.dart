@@ -20,7 +20,7 @@ class _CommentListWidgetState extends State<CommentListWidget> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
                     Text(
-                      comment.name,
+                      comment.author.firstName,
                       style: TextStyle(
                           fontSize: 12,
                           fontWeight: FontWeight.bold,

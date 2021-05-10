@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:krenak/Scenes/ActivityDetail/CommentList.dart';
 import 'package:krenak/Scenes/ActivityDetail/Activity.dart';
 import 'package:krenak/Scenes/ActivityDetail/TaskList.dart';
+import 'package:krenak/Scenes/TaskCreate/TaskCreateView.dart';
 import 'package:krenak/Services/Request/MeRequest.dart';
 
 class ActivityDetailViewArguments {
@@ -11,24 +12,6 @@ class ActivityDetailViewArguments {
 }
 
 class ActivityDetailView extends StatelessWidget {
-  // @override
-  // void initState() {
-  //   super.initState();
-
-  //   activity = Activity(
-  //       title: 'title',
-  //       description: 'description',
-  //       tasks: [Task(title: "eu", done: false), Task(title: "eu", done: true)],
-  //       comments: [
-  //         Comment(id: "", name: "Djorkaeff", text: "Texto."),
-  //         Comment(id: "", name: "Djorkaeff", text: "Texto."),
-  //         Comment(id: "", name: "Djorkaeff", text: "Texto.")
-  //       ]
-  //   );
-  // }
-
-  // Activity activity;
-
   @override
   Widget build(BuildContext context) {
     final ActivityDetailViewArguments args = ModalRoute.of(context).settings.arguments as ActivityDetailViewArguments;
@@ -104,7 +87,11 @@ class ActivityDetailView extends StatelessWidget {
         visible: MeRequest.shared.meResponse.role == 'MTR',
         child: FloatingActionButton(
         onPressed: () {
-          Navigator.pushNamed(context, '/task/create');
+          Navigator.pushNamed(
+            context,
+            '/task/create',
+            arguments: TaskCreateViewArguments(args.activity.id)
+          );
         },
         child: const Icon(Icons.add),
         backgroundColor: Colors.blue,

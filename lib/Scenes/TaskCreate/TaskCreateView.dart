@@ -9,6 +9,12 @@ class TaskCreateView extends StatefulWidget {
   }
 }
 
+class TaskCreateViewArguments {
+  final String id;
+
+  TaskCreateViewArguments(this.id);
+}
+
 class TaskCreateViewState extends State<TaskCreateView> {
   final _formKey = GlobalKey<FormState>();
 
@@ -16,6 +22,7 @@ class TaskCreateViewState extends State<TaskCreateView> {
 
   @override
   Widget build(BuildContext context) {
+    final TaskCreateViewArguments args = ModalRoute.of(context).settings.arguments as TaskCreateViewArguments;
     return Scaffold(
         appBar: AppBar(title: Text('Criar Tarefa')),
         body: Container(
@@ -39,7 +46,12 @@ class TaskCreateViewState extends State<TaskCreateView> {
                       onPressed: () async {
                         _formKey.currentState.save();
                         try {
-                          await TaskRequest().execute(TaskBody(title: task.title));
+                          await TaskRequest().execute(
+                            TaskBody(
+                              title: task.title,
+                              activity: args.id
+                            )
+                          );
                         } catch (e) {
 
                         }

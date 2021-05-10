@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:krenak/Scenes/ActivityDetail/Activity.dart';
+import 'package:krenak/Services/Request/TaskRequest.dart';
 
 class TaskListWidget extends StatefulWidget {
   final List<Task> tasks;
@@ -30,7 +31,11 @@ class _TaskListWidgetState extends State<TaskListWidget> {
                     ),
                   ),
                   onPressed: () async {
-                    
+                    try {
+                      await TaskRequest().executePath(TaskPatch(id: task.id, done: !task.done));
+                    } catch (e) {
+
+                    }
                   },
                   child: Row(
                     children: <Widget>[
