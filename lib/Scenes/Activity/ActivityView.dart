@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:krenak/Scenes/ActivityCreate/ActivityCreateView.dart';
 import 'package:krenak/Scenes/ActivityDetail/Activity.dart';
 import 'package:krenak/Scenes/ActivityDetail/ActivityDetailView.dart';
 import 'package:krenak/Services/Request/ActivityRequest.dart';
@@ -89,7 +90,12 @@ class ActivityViewState extends State<ActivityView> {
           visible: MeRequest.shared.meResponse.role == 'MTR',
           child: FloatingActionButton(
         onPressed: () async {
-          await Navigator.pushNamed(context, '/activity/create');
+          await Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => ActivityCreateView(id: widget.id),
+            )
+          );
           var value = ActivityRequest().getActivities();
           value.then(handleRequest);
         },

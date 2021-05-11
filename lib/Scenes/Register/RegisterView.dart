@@ -12,8 +12,36 @@ class RegisterView extends StatefulWidget {
 
 class RegisterViewState extends State<RegisterView> {
   final _formKey = GlobalKey<FormState>();
+  final _birthdateController = TextEditingController();
 
   Register register = Register();
+
+  DateTime selectedDate = DateTime.now();
+
+  Future<void> _selectDate(BuildContext context) async {
+    final DateTime picked = await showDatePicker(
+        context: context,
+        initialDate: selectedDate,
+        firstDate: DateTime(2015, 8),
+        lastDate: DateTime(2101));
+    if (picked != null && picked != selectedDate)
+      setState(() {
+        var month = picked.month;
+        var monthString = picked.month.toString();
+        if (month < 10) {
+          monthString = '0' + picked.month.toString();
+        }
+        var day = picked.day;
+        var dayString = picked.day.toString();
+        if (day < 10) {
+          dayString = '0' + picked.day.toString();
+        }
+        register.birthdate = picked.year.toString() + '-' + monthString + '-' + dayString;
+        selectedDate = picked;
+        
+        _birthdateController.text = dayString + '/' + monthString + '/' + picked.year.toString();
+      });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -49,10 +77,23 @@ class RegisterViewState extends State<RegisterView> {
                     },
                   ),
                   TextFormField(
+                    controller: _birthdateController,
                     decoration: InputDecoration(hintText: 'Data de nascimento'),
                     keyboardType: TextInputType.datetime,
                     onSaved: (String value) {
-                      register.birthdate = value;
+                      register.birthdate = value[6]
+                        + value[7]
+                        + value[8]
+                        + value[9]
+                        + '-'
+                        + value[3]
+                        + value[4]
+                        + '-'
+                        + value[0]
+                        + value[1];
+                    },
+                    onTap: () {
+                      _selectDate(context);
                     },
                   ),
                   TextFormField(

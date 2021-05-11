@@ -42,7 +42,7 @@ class App extends StatelessWidget {
         '/onboarding': (context) => new OnboardingView(),
         // '/activity/detail': (context) => new ActivityDetailView(),
         // '/activity': (context) => new ActivityView(),
-        '/activity/create': (context) => new ActivityCreateView(),
+        // '/activity/create': (context) => new ActivityCreateView(),
         '/task/create': (context) => new TaskCreateView(),
       },
     );

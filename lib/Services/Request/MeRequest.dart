@@ -39,7 +39,8 @@ class MeRequest {
       data: {
         'email': profile.email ?? '',
         'first_name': profile.firstName ?? '',
-        'last_name': profile.lastName ?? ''
+        'last_name': profile.lastName ?? '',
+        'birthdate': profile.birthdate
       }
     );
     if (response.statusCode == 200) {

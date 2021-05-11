@@ -3,6 +3,10 @@ import 'package:krenak/Scenes/ActivityDetail/Activity.dart';
 import 'package:krenak/Services/Request/ActivityRequest.dart';
 
 class ActivityCreateView extends StatefulWidget {
+  final String id;
+
+  ActivityCreateView({Key key, @required this.id}) : super(key: key);
+
   @override
   ActivityCreateViewState createState() {
     return ActivityCreateViewState();
@@ -46,7 +50,7 @@ class ActivityCreateViewState extends State<ActivityCreateView> {
                         ActivityRequest().execute(ActivityBody(
                           title: activity.title,
                           description: activity.description,
-                          mentorship: '8'
+                          mentorship: widget.id
                         ));
                         Navigator.pop(context);
                       },
