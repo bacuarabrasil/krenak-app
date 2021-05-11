@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import 'package:krenak/Scenes/Login/Login.dart';
+import 'package:krenak/Services/Request/MeRequest.dart';
 import 'package:krenak/Services/Store/AuthStore.dart';
 
 class LoginView extends StatefulWidget {
@@ -48,6 +49,7 @@ class LoginViewState extends State<LoginView> {
                         _formKey.currentState.save();
                         try {
                           await AuthStore().loginUser(login);
+                          await MeRequest.shared.execute();
                           Navigator.pushReplacementNamed(context, '/home');
                         } catch (e) {
                           print(e);
