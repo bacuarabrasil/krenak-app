@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:krenak/Scenes/Activity/ActivityView.dart';
+import 'package:krenak/Services/Request/MeRequest.dart';
 import 'package:krenak/Services/Request/MentorshipsRequest.dart';
+import 'package:krenak/Services/Response/MeResponse.dart';
 import 'package:krenak/Services/Response/MentorshipsResponse.dart';
 import 'package:krenak/Services/Store/AuthStore.dart';
 
@@ -83,15 +85,45 @@ class HomeViewState extends State<HomeView> {
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: <Widget>[
-                              Text(
+                              Visibility(
+                                visible: mentorship.menteeEnrollment.enrollee.id != MeRequest.shared.meResponse.id,
+                                child: Text(
                                 mentorship.menteeEnrollment.enrollee.firstName,
                                 style: TextStyle(
                                     fontSize: 16,
                                     fontWeight: FontWeight.bold,
                                     color: Colors.white),
+                                ),
+                              ),
+                              Visibility(
+                                visible: mentorship.mentorEnrollment.enrollee.id != MeRequest.shared.meResponse.id,
+                                child: Text(
+                                mentorship.mentorEnrollment.enrollee.firstName,
+                                style: TextStyle(
+                                    fontSize: 16,
+                                    fontWeight: FontWeight.bold,
+                                    color: Colors.white),
+                                ),
                               ),
                               SizedBox(height: 16),
-                              Wrap(
+                              Visibility(
+                                visible: mentorship.mentorEnrollment.enrollee.id != MeRequest.shared.meResponse.id,
+                                child: Wrap(
+                                  spacing: 8.0,
+                                  runSpacing: 4.0,
+                                  children:
+                                      mentorship.mentorEnrollment.interests
+                                          .map((e) => Chip(
+                                              backgroundColor: Colors.green,
+                                              label: Text(e.description,
+                                                  style: TextStyle(
+                                                    fontWeight: FontWeight.w600,
+                                                    color: Colors.white,
+                                                  ))))
+                                          .toList())),
+                              Visibility(
+                                visible: mentorship.menteeEnrollment.enrollee.id != MeRequest.shared.meResponse.id,
+                                child: Wrap(
                                   spacing: 8.0,
                                   runSpacing: 4.0,
                                   children:
@@ -103,7 +135,7 @@ class HomeViewState extends State<HomeView> {
                                                     fontWeight: FontWeight.w600,
                                                     color: Colors.white,
                                                   ))))
-                                          .toList())
+                                          .toList()))
                             ],
                           )))))
               .toList(),
