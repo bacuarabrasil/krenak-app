@@ -21,8 +21,8 @@ class ProfileViewState extends State<ProfileView> {
   @override
   void initState() {
     super.initState();
-    var me = MeRequest().execute();
-    me.then(handleRequest);
+    var me = MeRequest.shared.meResponse;
+    handleRequest(me);
   }
 
   handleRequest(value) {
@@ -34,10 +34,46 @@ class ProfileViewState extends State<ProfileView> {
     _emailController.text = profile.email;
     _firstNameController.text = profile.firstName;
     _lastNameController.text = profile.lastName;
-    _birthdateController.text = profile.birthdate;
+    _birthdateController.text = profile.birthdate[8]
+    + profile.birthdate[9]
+    + '/'
+    + profile.birthdate[5]
+    + profile.birthdate[6]
+    + '/'
+    + profile.birthdate[0]
+    + profile.birthdate[1]
+    + profile.birthdate[2]
+    + profile.birthdate[3];
     setState(() {
       profile = profile;
     });
+  }
+
+  DateTime selectedDate = DateTime.now();
+
+  Future<void> _selectDate(BuildContext context) async {
+    final DateTime picked = await showDatePicker(
+        context: context,
+        initialDate: selectedDate,
+        firstDate: DateTime(2015, 8),
+        lastDate: DateTime(2101));
+    if (picked != null && picked != selectedDate)
+      setState(() {
+        var month = picked.month;
+        var monthString = picked.month.toString();
+        if (month < 10) {
+          monthString = '0' + picked.month.toString();
+        }
+        var day = picked.day;
+        var dayString = picked.day.toString();
+        if (day < 10) {
+          dayString = '0' + picked.day.toString();
+        }
+        profile.birthdate = picked.year.toString() + '-' + monthString + '-' + dayString;
+        selectedDate = picked;
+        
+        _birthdateController.text = dayString + '/' + monthString + '/' + picked.year.toString();
+      });
   }
 
   Profile profile = Profile();
@@ -83,7 +119,19 @@ class ProfileViewState extends State<ProfileView> {
                     decoration: InputDecoration(hintText: 'Data de nascimento'),
                     keyboardType: TextInputType.datetime,
                     onSaved: (String value) {
-                      profile.birthdate = value;
+                      profile.birthdate = value[6]
+                        + value[7]
+                        + value[8]
+                        + value[9]
+                        + '-'
+                        + value[3]
+                        + value[4]
+                        + '-'
+                        + value[0]
+                        + value[1];
+                    },
+                    onTap: () {
+                      _selectDate(context);
                     },
                   ),
                   Padding(
@@ -91,7 +139,7 @@ class ProfileViewState extends State<ProfileView> {
                     child: ElevatedButton(
                       onPressed: () async {
                         _formKey.currentState.save();
-                        var updated = await MeRequest().update(profile);
+                        var updated = await MeRequest.shared.update(profile);
                         handleRequest(updated);
                       },
                       child: Text('Atualizar'),

@@ -9,6 +9,10 @@ class MeRequest {
   Dio dio;
   SessionRequestType sessionRequest;
 
+  static MeRequest shared = MeRequest();
+
+  MeResponse meResponse;
+
   MeRequest([Dio client, SessionRequestType sessionRequest])
     : dio = client ?? API().dio,
     sessionRequest = sessionRequest ?? SessionRequest();
@@ -19,7 +23,8 @@ class MeRequest {
     dio.options.headers['authorization'] = 'Bearer $access';
     Response response = await dio.get('/accounts/me/');
     if (response.statusCode == 200) {
-      return MeResponse.fromJson(response.data);
+      meResponse = MeResponse.fromJson(response.data);
+      return meResponse;
     } else {
       throw Exception('Unable to perform request!');
     }
@@ -34,11 +39,13 @@ class MeRequest {
       data: {
         'email': profile.email ?? '',
         'first_name': profile.firstName ?? '',
-        'last_name': profile.lastName ?? ''
+        'last_name': profile.lastName ?? '',
+        'birthdate': profile.birthdate
       }
     );
     if (response.statusCode == 200) {
-      return MeResponse.fromJson(response.data);
+      meResponse = MeResponse.fromJson(response.data);
+      return meResponse;
     } else {
       throw Exception('Unable to perform request!');
     }
