@@ -41,8 +41,10 @@ class HomeViewState extends State<HomeView> {
                 Icons.person,
                 color: Colors.white,
               ),
-              onPressed: () {
-                Navigator.pushNamed(context, '/profile');
+              onPressed: () async {
+                await Navigator.pushNamed(context, '/profile');
+                var mentorships = MentorshipsRequest().execute();
+                mentorships.then(handleRequest);
               },
             ),
             IconButton(
