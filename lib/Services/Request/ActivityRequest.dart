@@ -50,7 +50,7 @@ class ActivityRequest {
     }
   }
 
-  Future<List<Activity>> getActivities() async {
+  Future<List<Activity>> getActivities(String mentorship) async {
     var login = await SessionRequest().execute();
     var access = login.access;
     dio.options.headers['authorization'] = 'Bearer $access';
@@ -58,7 +58,7 @@ class ActivityRequest {
     Response response = await dio.get('/activities/');
     if (response.statusCode == 200) {
       var list = response.data['results'] as List;
-      List<Activity> results = list.map((i) => Activity.fromJson(i)).toList();
+      List<Activity> results = list.map((i) => Activity.fromJson(i)).where((element) => element.mentorship == mentorship).toList();
       return results;
     } else {
       throw Exception('Unable to perform request!');

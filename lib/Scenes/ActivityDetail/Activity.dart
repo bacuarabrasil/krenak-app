@@ -41,10 +41,11 @@ class Activity {
   String id;
   String title;
   String description;
+  String mentorship;
   List<Task> tasks;
   List<Comment> comments;
 
-  Activity({this.id, this.title, this.description, this.tasks, this.comments});
+  Activity({this.id, this.title, this.description, this.mentorship, this.tasks, this.comments});
 
   factory Activity.fromJson(Map<String, dynamic> json) {
     var listTasks = json['tasks'] as List;
@@ -56,6 +57,7 @@ class Activity {
       id: json['id'].toString(),
       title: json['title'],
       description: json['description'],
+      mentorship: json['mentorship'].toString(),
       tasks: tasks,
       comments: comments
     );

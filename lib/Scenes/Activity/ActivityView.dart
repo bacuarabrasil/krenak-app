@@ -25,7 +25,7 @@ class ActivityViewState extends State<ActivityView> {
   @override
   void initState() {
     super.initState();
-    var value = ActivityRequest().getActivities();
+    var value = ActivityRequest().getActivities(widget.id);
     value.then(handleRequest);
   }
 
@@ -96,7 +96,7 @@ class ActivityViewState extends State<ActivityView> {
               builder: (context) => ActivityCreateView(id: widget.id),
             )
           );
-          var value = ActivityRequest().getActivities();
+          var value = ActivityRequest().getActivities(widget.id);
           value.then(handleRequest);
         },
         child: const Icon(Icons.add),
