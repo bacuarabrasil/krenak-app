@@ -107,6 +107,7 @@ class ProfileViewState extends State<ProfileView> {
                     },
                   ),
                   TextFormField(
+                    enabled: false,
                     controller: _emailController,
                     decoration: InputDecoration(hintText: 'Email'),
                     keyboardType: TextInputType.emailAddress,
