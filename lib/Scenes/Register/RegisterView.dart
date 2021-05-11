@@ -16,14 +16,31 @@ class RegisterViewState extends State<RegisterView> {
 
   Register register = Register();
 
-  DateTime selectedDate = DateTime.now();
+  DateTime selectedDate = DateTime(2003);
+
+  _showMaterialDialog(String mensagem) {
+    showDialog(
+        context: context,
+        builder: (_) => new AlertDialog(
+              title: new Text("Can't proceed."),
+              content: new Text(mensagem),
+              actions: <Widget>[
+                FlatButton(
+                  child: Text('Close'),
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                  },
+                )
+              ],
+            ));
+  }
 
   Future<void> _selectDate(BuildContext context) async {
     final DateTime picked = await showDatePicker(
         context: context,
         initialDate: selectedDate,
-        firstDate: DateTime(2015, 8),
-        lastDate: DateTime(2101));
+        firstDate: DateTime(1930),
+        lastDate: DateTime(2021));
     if (picked != null && picked != selectedDate)
       setState(() {
         var month = picked.month;
@@ -81,16 +98,18 @@ class RegisterViewState extends State<RegisterView> {
                     decoration: InputDecoration(hintText: 'Data de nascimento'),
                     keyboardType: TextInputType.datetime,
                     onSaved: (String value) {
-                      register.birthdate = value[6]
-                        + value[7]
-                        + value[8]
-                        + value[9]
-                        + '-'
-                        + value[3]
-                        + value[4]
-                        + '-'
-                        + value[0]
-                        + value[1];
+                      if (value.length == 10) {
+                        register.birthdate = value[6]
+                          + value[7]
+                          + value[8]
+                          + value[9]
+                          + '-'
+                          + value[3]
+                          + value[4]
+                          + '-'
+                          + value[0]
+                          + value[1];
+                      }
                     },
                     onTap: () {
                       _selectDate(context);
@@ -103,6 +122,8 @@ class RegisterViewState extends State<RegisterView> {
                       register.password = value;
                     },
                   ),
+                  SizedBox(height: 16),
+                  Text("A senha deve conter mais de 8 caracteres."),
                   Padding(
                     padding: const EdgeInsets.symmetric(vertical: 16.0),
                     child: ElevatedButton(
@@ -113,7 +134,7 @@ class RegisterViewState extends State<RegisterView> {
                           Navigator.pushReplacementNamed(
                               context, '/onboarding');
                         } catch (e) {
-                          // Do nothing
+                          _showMaterialDialog(e.toString());
                         }
                       },
                       child: Text('Registrar'),

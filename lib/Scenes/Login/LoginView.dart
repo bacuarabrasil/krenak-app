@@ -16,6 +16,23 @@ class LoginViewState extends State<LoginView> {
 
   Login login = Login();
 
+  _showMaterialDialog(String mensagem) {
+    showDialog(
+        context: context,
+        builder: (_) => new AlertDialog(
+              title: new Text("Can't proceed."),
+              content: new Text(mensagem),
+              actions: <Widget>[
+                FlatButton(
+                  child: Text('Close'),
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                  },
+                )
+              ],
+            ));
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -52,7 +69,7 @@ class LoginViewState extends State<LoginView> {
                           await MeRequest.shared.execute();
                           Navigator.pushReplacementNamed(context, '/home');
                         } catch (e) {
-                          print(e);
+                          _showMaterialDialog(e.toString());
                         }
                       },
                       child: Text('Entrar'),

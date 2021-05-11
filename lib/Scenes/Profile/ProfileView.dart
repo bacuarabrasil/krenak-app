@@ -49,14 +49,31 @@ class ProfileViewState extends State<ProfileView> {
     });
   }
 
-  DateTime selectedDate = DateTime.now();
+  _showMaterialDialog(String mensagem) {
+    showDialog(
+        context: context,
+        builder: (_) => new AlertDialog(
+              title: new Text("Can't proceed."),
+              content: new Text(mensagem),
+              actions: <Widget>[
+                FlatButton(
+                  child: Text('Close'),
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                  },
+                )
+              ],
+            ));
+  }
+
+  DateTime selectedDate = DateTime(2003);
 
   Future<void> _selectDate(BuildContext context) async {
     final DateTime picked = await showDatePicker(
         context: context,
         initialDate: selectedDate,
-        firstDate: DateTime(2015, 8),
-        lastDate: DateTime(2101));
+        firstDate: DateTime(1930),
+        lastDate: DateTime(2021));
     if (picked != null && picked != selectedDate)
       setState(() {
         var month = picked.month;
@@ -120,16 +137,18 @@ class ProfileViewState extends State<ProfileView> {
                     decoration: InputDecoration(hintText: 'Data de nascimento'),
                     keyboardType: TextInputType.datetime,
                     onSaved: (String value) {
-                      profile.birthdate = value[6]
-                        + value[7]
-                        + value[8]
-                        + value[9]
-                        + '-'
-                        + value[3]
-                        + value[4]
-                        + '-'
-                        + value[0]
-                        + value[1];
+                      if (value.length == 10) {
+                        profile.birthdate = value[6]
+                          + value[7]
+                          + value[8]
+                          + value[9]
+                          + '-'
+                          + value[3]
+                          + value[4]
+                          + '-'
+                          + value[0]
+                          + value[1];
+                      }
                     },
                     onTap: () {
                       _selectDate(context);
@@ -140,8 +159,12 @@ class ProfileViewState extends State<ProfileView> {
                     child: ElevatedButton(
                       onPressed: () async {
                         _formKey.currentState.save();
-                        var updated = await MeRequest.shared.update(profile);
-                        handleRequest(updated);
+                        try {
+                          var updated = await MeRequest.shared.update(profile);
+                          handleRequest(updated);
+                        } catch (e) {
+                          _showMaterialDialog(e.toString());
+                        }
                       },
                       child: Text('Atualizar'),
                     ),

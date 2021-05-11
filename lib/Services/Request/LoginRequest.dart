@@ -20,7 +20,9 @@ class LoginRequest {
     if (response.statusCode == 200) {
       return LoginResponse.fromJson(response.data);
     } else {
-      throw Exception('Unable to perform request!');
+      var map = response.data as Map;
+      var list = map.entries.first.value as List;
+      throw map.entries.first.key + ": " + list.first.toString();
     }
   }
 }

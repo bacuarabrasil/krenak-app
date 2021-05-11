@@ -23,13 +23,32 @@ class OnboardingViewState extends State<OnboardingView> {
     onboarding.interests = [];
 
     var interests = InterestRequest().execute();
-    interests.then(handleRequest);
+    interests.then(handleRequest).catchError((e) {
+      _showMaterialDialog(e.toString());
+    });
   }
 
   handleRequest(value) {
     setState(() {
       interests = value.results;
     });
+  }
+
+  _showMaterialDialog(String mensagem) {
+    showDialog(
+        context: context,
+        builder: (_) => new AlertDialog(
+              title: new Text("Can't proceed."),
+              content: new Text(mensagem),
+              actions: <Widget>[
+                FlatButton(
+                  child: Text('Close'),
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                  },
+                )
+              ],
+            ));
   }
 
   List<Interest> interests = [];
@@ -154,7 +173,7 @@ class OnboardingViewState extends State<OnboardingView> {
                               await MeRequest.shared.execute();
                               Navigator.pushReplacementNamed(context, '/home');
                             } catch (e) {
-                              print(e);
+                              _showMaterialDialog(e.toString());
                             }
                           },
                           child: Text('Enviar'),
