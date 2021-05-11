@@ -4,6 +4,7 @@ import 'package:krenak/Scenes/Onboarding/Interest.dart';
 import 'package:krenak/Scenes/Onboarding/Onboarding.dart';
 
 import 'package:krenak/Services/Request/InterestRequest.dart';
+import 'package:krenak/Services/Request/MeRequest.dart';
 import 'package:krenak/Services/Request/PreferencesRequest.dart';
 
 class OnboardingView extends StatefulWidget {
@@ -150,6 +151,7 @@ class OnboardingViewState extends State<OnboardingView> {
                             try {
                               await PreferencesRequest().execute(onboarding);
                               await FlutterSecureStorage().write(key: 'onboarding', value: 'done');
+                              await MeRequest.shared.execute();
                               Navigator.pushReplacementNamed(context, '/home');
                             } catch (e) {
                               print(e);
