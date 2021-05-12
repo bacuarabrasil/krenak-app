@@ -81,7 +81,8 @@ class RegisterViewState extends State<RegisterView> {
         appBar: AppBar(
           title: Text('Registro'),
         ),
-        body: Stack(children: <Widget>[
+        body: SingleChildScrollView(
+          child: Stack(children: <Widget>[
           Container(
               margin: const EdgeInsets.all(24.0),
               child: Form(
@@ -180,6 +181,6 @@ class RegisterViewState extends State<RegisterView> {
                 ),
               )),
               new Align(child: loadingIndicator,alignment: FractionalOffset.center,),
-        ]));
+        ])));
   }
 }
