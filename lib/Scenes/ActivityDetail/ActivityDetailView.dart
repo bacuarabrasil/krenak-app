@@ -204,7 +204,11 @@ class ActivityDetailView extends State<ActivityDetail> {
                             setState(() {
                               loading = true;
                             });
-                            await CommentRequest().execute(body);
+                            try {
+                              await CommentRequest().execute(body);
+                            } catch (e) {
+
+                            }
                             var value =
                                 ActivityRequest().getActivity(widget.id);
                             value.then(handleRequest);
