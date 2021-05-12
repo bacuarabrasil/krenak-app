@@ -153,6 +153,7 @@ class ProfileViewState extends State<ProfileView> {
                       },
                     ),
                     TextFormField(
+                      readOnly: true,
                       controller: _birthdateController,
                       decoration:
                           InputDecoration(hintText: 'Data de nascimento'),

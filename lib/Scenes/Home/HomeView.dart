@@ -93,9 +93,19 @@ class HomeViewState extends State<HomeView> {
                           ));
                     },
                     child: Container(
-                        decoration: new BoxDecoration(
-                            color: Colors.blue[400],
-                            borderRadius: new BorderRadius.circular(8.0)),
+                        decoration: BoxDecoration(
+                          color: Colors.blue[400],
+                          borderRadius: new BorderRadius.circular(8.0),
+                          boxShadow: [
+                            BoxShadow(
+                              color: Colors.grey.withOpacity(0.5),
+                              spreadRadius: 5,
+                              blurRadius: 7,
+                              offset:
+                                  Offset(0, 3), // changes position of shadow
+                            ),
+                          ],
+                        ),
                         margin: EdgeInsets.symmetric(
                             vertical: 8.0, horizontal: 16.0),
                         child: Padding(
@@ -105,9 +115,9 @@ class HomeViewState extends State<HomeView> {
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: <Widget>[
                                 Visibility(
-                                  visible:
-                                      mentorship.menteeEnrollment.enrollee?.id !=
-                                          MeRequest.shared.meResponse.id,
+                                  visible: mentorship
+                                          .menteeEnrollment.enrollee?.id !=
+                                      MeRequest.shared.meResponse.id,
                                   child: Text(
                                     mentorship
                                         .menteeEnrollment.enrollee.firstName,
@@ -118,9 +128,9 @@ class HomeViewState extends State<HomeView> {
                                   ),
                                 ),
                                 Visibility(
-                                  visible:
-                                      mentorship.mentorEnrollment.enrollee?.id !=
-                                          MeRequest.shared.meResponse.id,
+                                  visible: mentorship
+                                          .mentorEnrollment.enrollee?.id !=
+                                      MeRequest.shared.meResponse.id,
                                   child: Text(
                                     mentorship
                                         .mentorEnrollment.enrollee.firstName,
@@ -171,7 +181,10 @@ class HomeViewState extends State<HomeView> {
                             )))))
                 .toList(),
           ),
-          new Align(child: loadingIndicator,alignment: FractionalOffset.center,),
+          new Align(
+            child: loadingIndicator,
+            alignment: FractionalOffset.center,
+          ),
         ]));
   }
 }
