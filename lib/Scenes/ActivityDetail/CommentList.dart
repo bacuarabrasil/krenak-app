@@ -22,12 +22,6 @@ class _CommentListWidgetState extends State<CommentListWidget> {
             child: Wrap(
               children: <Widget>[
                 ListTile(
-                    leading: new Icon(Icons.edit),
-                    title: new Text('Editar'),
-                    onTap: () {
-                      Navigator.pop(context);
-                    }),
-                ListTile(
                   leading: new Icon(Icons.delete),
                   title: new Text('Deletar'),
                   onTap: () async {

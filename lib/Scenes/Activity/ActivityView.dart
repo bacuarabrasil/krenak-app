@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:krenak/Scenes/ActivityCreate/ActivityCreateView.dart';
 import 'package:krenak/Scenes/ActivityDetail/Activity.dart';
 import 'package:krenak/Scenes/ActivityDetail/ActivityDetailView.dart';
+import 'package:krenak/Scenes/ActivityEdit/ActivityEditView.dart';
 import 'package:krenak/Services/Request/ActivityRequest.dart';
 import 'package:krenak/Services/Request/MeRequest.dart';
 
@@ -36,7 +37,7 @@ class ActivityViewState extends State<ActivityView> {
 
   List<Activity> activities = [];
 
-  _showBottomSheet(String id) {
+  _showBottomSheet(Activity activity) {
     showModalBottomSheet(
         context: context,
         builder: (BuildContext bc) {
@@ -46,8 +47,18 @@ class ActivityViewState extends State<ActivityView> {
                 ListTile(
                     leading: new Icon(Icons.edit),
                     title: new Text('Editar'),
-                    onTap: () {
+                    onTap: () async {
                       Navigator.pop(context);
+                      await Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => ActivityEditView(id: widget.id, activity: activity),
+                          ));
+                      setState(() {
+                        loading = true;
+                      });
+                      var value = ActivityRequest().getActivities(widget.id);
+                      value.then(handleRequest);
                     }),
                 ListTile(
                   leading: new Icon(Icons.delete),
@@ -58,7 +69,7 @@ class ActivityViewState extends State<ActivityView> {
                       loading = true;
                     });
                     try {
-                      await ActivityRequest().deleteActivity(id);
+                      await ActivityRequest().deleteActivity(activity.id);
                     } catch (e) {
 
                     }                    
@@ -103,7 +114,7 @@ class ActivityViewState extends State<ActivityView> {
                 .map((activity) => GestureDetector(
                   onLongPressUp: () {
                     if (MeRequest.shared.meResponse.role == 'MTR') {
-                      _showBottomSheet(activity.id);
+                      _showBottomSheet(activity);
                     }
                   },
                   child: InkWell(

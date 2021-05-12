@@ -74,4 +74,23 @@ class TaskRequest {
       throw Exception('Unable to perform request!');
     }
   }
+
+  Future<void> patch(TaskBody body, String id) async {
+    var login = await SessionRequest().execute();
+    var access = login.access;
+    dio.options.headers['authorization'] = 'Bearer $access';
+
+    Response response = await dio.patch(
+      '/tasks/' + id + '/',
+      data: {
+        'title': body.title,
+        'activity': body.activity
+      }
+    );
+    if (response.statusCode == 200) {
+      return;
+    } else {
+      throw Exception('Unable to perform request!');
+    }
+  }
 }

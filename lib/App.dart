@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:krenak/Scenes/ActivityDetail/ActivityDetailView.dart';
+import 'package:krenak/Scenes/TaskEdit/TaskEditView.dart';
 import 'package:krenak/Services/Request/MeRequest.dart';
 import 'package:krenak/Services/Response/LoginResponse.dart';
 import 'package:krenak/Services/Store/AuthStore.dart';
@@ -44,6 +45,7 @@ class App extends StatelessWidget {
         // '/activity': (context) => new ActivityView(),
         // '/activity/create': (context) => new ActivityCreateView(),
         '/task/create': (context) => new TaskCreateView(),
+        '/task/edit': (context) => new TaskEditView()
       },
     );
   }

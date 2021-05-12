@@ -8,15 +8,16 @@ class TaskListWidget extends StatefulWidget {
   final List<Task> tasks;
   final Function(int) callback;
   final Function(String) delete;
+  final Function(Task) edit;
 
-  const TaskListWidget({this.tasks, this.callback, this.delete});
+  const TaskListWidget({this.tasks, this.callback, this.delete, this.edit});
 
   @override
   _TaskListWidgetState createState() => _TaskListWidgetState();
 }
 
 class _TaskListWidgetState extends State<TaskListWidget> {
-  _showBottomSheet(String id) {
+  _showBottomSheet(Task task) {
     showModalBottomSheet(
         context: context,
         builder: (BuildContext bc) {
@@ -28,13 +29,14 @@ class _TaskListWidgetState extends State<TaskListWidget> {
                     title: new Text('Editar'),
                     onTap: () {
                       Navigator.pop(context);
+                      widget.edit(task);
                     }),
                 ListTile(
                   leading: new Icon(Icons.delete),
                   title: new Text('Deletar'),
                   onTap: () async {
                     Navigator.pop(context);
-                    widget.delete(id);
+                    widget.delete(task.id);
                   },
                 ),
                 ListTile(
@@ -60,7 +62,7 @@ class _TaskListWidgetState extends State<TaskListWidget> {
             .mapIndexed((task, index) => ElevatedButton(
               onLongPress: () {
                 if (MeRequest.shared.meResponse.role == 'MTR') {
-                  _showBottomSheet(task.id);
+                  _showBottomSheet(task);
                 }
               },
                   style: ButtonStyle(

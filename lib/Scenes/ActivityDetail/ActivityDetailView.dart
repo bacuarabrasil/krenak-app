@@ -3,6 +3,7 @@ import 'package:krenak/Scenes/ActivityDetail/CommentList.dart';
 import 'package:krenak/Scenes/ActivityDetail/Activity.dart';
 import 'package:krenak/Scenes/ActivityDetail/TaskList.dart';
 import 'package:krenak/Scenes/TaskCreate/TaskCreateView.dart';
+import 'package:krenak/Scenes/TaskEdit/TaskEditView.dart';
 import 'package:krenak/Services/Request/ActivityRequest.dart';
 import 'package:krenak/Services/Request/CommentRequest.dart';
 import 'package:krenak/Services/Request/MeRequest.dart';
@@ -105,6 +106,15 @@ class ActivityDetailView extends State<ActivityDetail> {
                       SizedBox(height: 16),
                       TaskListWidget(
                           tasks: activity.tasks,
+                          edit: (task) async {
+                             await Navigator.pushNamed(context, '/task/edit',
+                                  arguments: TaskEditViewArguments(activity.id, task));
+                              setState(() {
+                                loading = true;
+                              });
+                              var value = ActivityRequest().getActivity(widget.id);
+                              value.then(handleRequest);
+                          },
                           delete: (id) async {
                             setState(() {
                               loading = true;
