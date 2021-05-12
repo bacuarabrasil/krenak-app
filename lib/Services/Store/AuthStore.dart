@@ -4,6 +4,7 @@ import 'package:krenak/Scenes/Login/Login.dart';
 import 'package:krenak/Scenes/Register/Register.dart';
 import 'package:krenak/Services/Request/LoginRequest.dart';
 import 'package:krenak/Services/Request/LogoutRequest.dart';
+import 'package:krenak/Services/Request/MeRequest.dart';
 import 'package:krenak/Services/Request/RegisterRequest.dart';
 import 'package:krenak/Services/Request/SessionRequest.dart';
 import 'package:krenak/Services/Response/LoginResponse.dart';
@@ -34,6 +35,7 @@ class AuthStore with ChangeNotifier {
     var response = await RegisterRequest().execute(register);
     await SessionStore().execute(response);
     this.currentUser = await SessionRequest().execute();
+    await MeRequest.shared.execute();
     notifyListeners();
   }
 
@@ -41,6 +43,7 @@ class AuthStore with ChangeNotifier {
     var response = await LoginRequest().execute(login);
     await SessionStore().execute(response);
     this.currentUser = await SessionRequest().execute();
+    await MeRequest.shared.execute();
     notifyListeners();
   }
 }

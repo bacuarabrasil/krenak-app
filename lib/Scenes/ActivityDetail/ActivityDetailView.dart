@@ -26,12 +26,16 @@ class ActivityDetailView extends State<ActivityDetail> {
   @override
   void initState() {
     super.initState();
+    setState(() {
+      loading = true;
+    });
     var value = ActivityRequest().getActivity(widget.id);
     value.then(handleRequest);
   }
 
   handleRequest(value) {
     setState(() {
+      loading = false;
       activity = value;
     });
   }
@@ -40,114 +44,141 @@ class ActivityDetailView extends State<ActivityDetail> {
   var _controller = TextEditingController();
 
   CommentBody body = CommentBody();
+  bool loading = false;
 
   Activity activity =
       Activity(title: '', description: '', tasks: [], comments: []);
 
   @override
   Widget build(BuildContext context) {
+    Widget loadingIndicator = loading
+        ? new Container(
+            color: Colors.grey[300],
+            width: 70.0,
+            height: 70.0,
+            child: new Padding(
+                padding: const EdgeInsets.all(5.0),
+                child: new Center(child: new CircularProgressIndicator())),
+          )
+        : new Container();
+
     return Scaffold(
       resizeToAvoidBottomInset: false,
       appBar: AppBar(
         title: Text('Atividade'),
       ),
-      body: ListView(children: <Widget>[
-        Container(
-            padding: EdgeInsets.only(
-                bottom: MediaQuery.of(context).viewInsets.bottom),
-            child: Padding(
-                padding: EdgeInsets.symmetric(vertical: 24.0, horizontal: 24.0),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: <Widget>[
-                    Text(
-                      activity.title,
-                      style: TextStyle(
-                          fontSize: 24,
-                          fontWeight: FontWeight.bold,
-                          color: Colors.black),
-                    ),
-                    SizedBox(height: 16),
-                    Text(
-                      activity.description,
-                      style: TextStyle(
-                          fontSize: 16,
-                          fontWeight: FontWeight.normal,
-                          color: Colors.black),
-                    ),
-                    SizedBox(height: 16),
-                    Text(
-                      "Tarefas",
-                      style: TextStyle(
-                          fontSize: 18,
-                          fontWeight: FontWeight.bold,
-                          color: Colors.black),
-                    ),
-                    SizedBox(height: 16),
-                    TaskListWidget(
-                        tasks: activity.tasks,
-                        callback: (id) {
-                          var newTasks = activity.tasks;
-                          newTasks[id].done = !newTasks[id].done;
-                          handleRequest(Activity(
-                              id: activity.id,
-                              title: activity.title,
-                              description: activity.description,
-                              tasks: newTasks,
-                              comments: activity.comments));
-                          var value = ActivityRequest().getActivity(widget.id);
-                          value.then(handleRequest);
-                        }),
-                    SizedBox(height: 16),
-                    Text(
-                      "Comentários",
-                      style: TextStyle(
-                          fontSize: 18,
-                          fontWeight: FontWeight.bold,
-                          color: Colors.black),
-                    ),
-                    SizedBox(height: 16),
-                    CommentListWidget(comments: activity.comments),
-                    SizedBox(height: 16),
-                    Row(mainAxisAlignment: MainAxisAlignment.end, children: [
-                      // First child is enter comment text input
-                      Form(
-                        key: _formKey,
-                        child: Expanded(
-                          child: TextFormField(
-                            controller: _controller,
-                            autocorrect: false,
-                            onSaved: (String value) {
-                              body.text = value;
-                            },
-                            decoration: new InputDecoration(
-                              labelText: "Comentar",
-                              labelStyle: TextStyle(
-                                  fontSize: 16.0, color: Colors.black),
-                              fillColor: Colors.blue,
-                              border: OutlineInputBorder(
-                                  borderSide:
-                                      BorderSide(color: Colors.purpleAccent)),
+      body: Stack(children: <Widget>[
+        ListView(children: <Widget>[
+          Container(
+              padding: EdgeInsets.only(
+                  bottom: MediaQuery.of(context).viewInsets.bottom),
+              child: Padding(
+                  padding:
+                      EdgeInsets.symmetric(vertical: 24.0, horizontal: 24.0),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: <Widget>[
+                      Text(
+                        activity.title,
+                        style: TextStyle(
+                            fontSize: 24,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.black),
+                      ),
+                      SizedBox(height: 16),
+                      Text(
+                        activity.description,
+                        style: TextStyle(
+                            fontSize: 16,
+                            fontWeight: FontWeight.normal,
+                            color: Colors.black),
+                      ),
+                      SizedBox(height: 16),
+                      Text(
+                        "Tarefas",
+                        style: TextStyle(
+                            fontSize: 18,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.black),
+                      ),
+                      SizedBox(height: 16),
+                      TaskListWidget(
+                          tasks: activity.tasks,
+                          callback: (id) {
+                            var newTasks = activity.tasks;
+                            newTasks[id].done = !newTasks[id].done;
+                            handleRequest(Activity(
+                                id: activity.id,
+                                title: activity.title,
+                                description: activity.description,
+                                tasks: newTasks,
+                                comments: activity.comments));
+                            setState(() {
+                              loading = true;
+                            });
+                            var value =
+                                ActivityRequest().getActivity(widget.id);
+                            value.then(handleRequest);
+                          }),
+                      SizedBox(height: 16),
+                      Text(
+                        "Comentários",
+                        style: TextStyle(
+                            fontSize: 18,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.black),
+                      ),
+                      SizedBox(height: 16),
+                      CommentListWidget(comments: activity.comments),
+                      SizedBox(height: 16),
+                      Row(mainAxisAlignment: MainAxisAlignment.end, children: [
+                        // First child is enter comment text input
+                        Form(
+                          key: _formKey,
+                          child: Expanded(
+                            child: TextFormField(
+                              controller: _controller,
+                              autocorrect: false,
+                              onSaved: (String value) {
+                                body.text = value;
+                              },
+                              decoration: new InputDecoration(
+                                labelText: "Comentar",
+                                labelStyle: TextStyle(
+                                    fontSize: 16.0, color: Colors.black),
+                                fillColor: Colors.blue,
+                                border: OutlineInputBorder(
+                                    borderSide:
+                                        BorderSide(color: Colors.purpleAccent)),
+                              ),
                             ),
                           ),
                         ),
-                      ),
-                      // Second child is button
-                      IconButton(
-                        icon: Icon(Icons.send),
-                        iconSize: 24.0,
-                        onPressed: () async {
-                          _formKey.currentState.save();
-                          body.activity = activity.id;
-                          _controller.clear();
-                          await CommentRequest().execute(body);
-                          var value = ActivityRequest().getActivity(widget.id);
-                          value.then(handleRequest);
-                        },
-                      )
-                    ]),
-                  ],
-                ))),
+                        // Second child is button
+                        IconButton(
+                          icon: Icon(Icons.send),
+                          iconSize: 24.0,
+                          onPressed: () async {
+                            _formKey.currentState.save();
+                            body.activity = activity.id;
+                            _controller.clear();
+                            setState(() {
+                              loading = true;
+                            });
+                            await CommentRequest().execute(body);
+                            var value =
+                                ActivityRequest().getActivity(widget.id);
+                            value.then(handleRequest);
+                          },
+                        )
+                      ]),
+                    ],
+                  ))),
+        ]),
+        new Align(
+          child: loadingIndicator,
+          alignment: FractionalOffset.center,
+        ),
       ]),
       floatingActionButton: Visibility(
           visible: MeRequest.shared.meResponse.role == 'MTR',
@@ -155,6 +186,9 @@ class ActivityDetailView extends State<ActivityDetail> {
             onPressed: () async {
               await Navigator.pushNamed(context, '/task/create',
                   arguments: TaskCreateViewArguments(activity.id));
+              setState(() {
+                loading = true;
+              });
               var value = ActivityRequest().getActivity(widget.id);
               value.then(handleRequest);
             },
