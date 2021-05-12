@@ -23,6 +23,12 @@ class HomeViewState extends State<HomeView> {
     });
     var mentorships = MentorshipsRequest().execute();
     mentorships.then(handleRequest);
+
+    MeRequest.shared.execute().then((value) => {
+      setState(() {
+        meResponse = value;
+      })
+    });
   }
 
   handleRequest(value) {
@@ -33,6 +39,7 @@ class HomeViewState extends State<HomeView> {
   }
 
   List<Mentorship> mentorships = [];
+  MeResponse meResponse = MeRequest.shared.meResponse;
   bool _loading = false;
 
   @override
@@ -117,10 +124,10 @@ class HomeViewState extends State<HomeView> {
                                 Visibility(
                                   visible: mentorship
                                           .menteeEnrollment.enrollee?.id !=
-                                      MeRequest.shared.meResponse.id,
+                                      meResponse?.id,
                                   child: Text(
                                     mentorship
-                                        .menteeEnrollment.enrollee.firstName,
+                                        .menteeEnrollment.enrollee?.firstName,
                                     style: TextStyle(
                                         fontSize: 16,
                                         fontWeight: FontWeight.bold,
@@ -130,10 +137,10 @@ class HomeViewState extends State<HomeView> {
                                 Visibility(
                                   visible: mentorship
                                           .mentorEnrollment.enrollee?.id !=
-                                      MeRequest.shared.meResponse.id,
+                                      meResponse?.id,
                                   child: Text(
                                     mentorship
-                                        .mentorEnrollment.enrollee.firstName,
+                                        .mentorEnrollment.enrollee?.firstName,
                                     style: TextStyle(
                                         fontSize: 16,
                                         fontWeight: FontWeight.bold,
@@ -143,8 +150,8 @@ class HomeViewState extends State<HomeView> {
                                 SizedBox(height: 16),
                                 Visibility(
                                     visible: mentorship
-                                            .mentorEnrollment.enrollee.id !=
-                                        MeRequest.shared.meResponse.id,
+                                            .mentorEnrollment.enrollee?.id !=
+                                        meResponse?.id,
                                     child: Wrap(
                                         spacing: 8.0,
                                         runSpacing: 4.0,
@@ -161,8 +168,8 @@ class HomeViewState extends State<HomeView> {
                                             .toList())),
                                 Visibility(
                                     visible: mentorship
-                                            .menteeEnrollment.enrollee.id !=
-                                        MeRequest.shared.meResponse.id,
+                                            .menteeEnrollment.enrollee?.id !=
+                                        meResponse?.id,
                                     child: Wrap(
                                         spacing: 8.0,
                                         runSpacing: 4.0,

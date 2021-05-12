@@ -36,6 +36,49 @@ class ActivityViewState extends State<ActivityView> {
 
   List<Activity> activities = [];
 
+  _showBottomSheet(String id) {
+    showModalBottomSheet(
+        context: context,
+        builder: (BuildContext bc) {
+          return Container(
+            child: Wrap(
+              children: <Widget>[
+                ListTile(
+                    leading: new Icon(Icons.edit),
+                    title: new Text('Editar'),
+                    onTap: () {
+                      Navigator.pop(context);
+                    }),
+                ListTile(
+                  leading: new Icon(Icons.delete),
+                  title: new Text('Deletar'),
+                  onTap: () async {
+                    Navigator.pop(context);
+                    setState(() {
+                      loading = true;
+                    });
+                    try {
+                      await ActivityRequest().deleteActivity(id);
+                    } catch (e) {
+
+                    }                    
+                    var value = ActivityRequest().getActivities(widget.id);
+                    value.then(handleRequest);
+                  },
+                ),
+                ListTile(
+                  leading: new Icon(Icons.cancel),
+                  title: new Text('Cancelar'),
+                  onTap: () {
+                    Navigator.pop(context);
+                  },
+                ),
+              ],
+            ),
+          );
+        });
+  }
+
   @override
   Widget build(BuildContext context) {
     Widget loadingIndicator = loading
@@ -57,7 +100,13 @@ class ActivityViewState extends State<ActivityView> {
           ListView(
             padding: EdgeInsets.symmetric(vertical: 8.0),
             children: activities
-                .map((activity) => InkWell(
+                .map((activity) => GestureDetector(
+                  onLongPressUp: () {
+                    if (MeRequest.shared.meResponse.role == 'MTR') {
+                      _showBottomSheet(activity.id);
+                    }
+                  },
+                  child: InkWell(
                     onTap: () {
                       Navigator.push(
                           context,
@@ -67,7 +116,7 @@ class ActivityViewState extends State<ActivityView> {
                           ));
                     },
                     child: Container(
-                      decoration: BoxDecoration(
+                        decoration: BoxDecoration(
                           color: Colors.blue[400],
                           borderRadius: new BorderRadius.circular(8.0),
                           boxShadow: [
@@ -104,10 +153,13 @@ class ActivityViewState extends State<ActivityView> {
                                       color: Colors.black),
                                 ),
                               ],
-                            )))))
+                            ))))))
                 .toList(),
           ),
-          new Align(child: loadingIndicator,alignment: FractionalOffset.center,),
+          new Align(
+            child: loadingIndicator,
+            alignment: FractionalOffset.center,
+          ),
         ]),
         floatingActionButton: Visibility(
             visible: MeRequest.shared.meResponse.role == 'MTR',

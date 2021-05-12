@@ -6,6 +6,7 @@ import 'package:krenak/Scenes/TaskCreate/TaskCreateView.dart';
 import 'package:krenak/Services/Request/ActivityRequest.dart';
 import 'package:krenak/Services/Request/CommentRequest.dart';
 import 'package:krenak/Services/Request/MeRequest.dart';
+import 'package:krenak/Services/Request/TaskRequest.dart';
 
 class ActivityDetailViewArguments {
   final Activity activity;
@@ -104,6 +105,19 @@ class ActivityDetailView extends State<ActivityDetail> {
                       SizedBox(height: 16),
                       TaskListWidget(
                           tasks: activity.tasks,
+                          delete: (id) async {
+                            setState(() {
+                              loading = true;
+                            });
+                            try {
+                              await TaskRequest().delete(id);
+                            } catch (e) {
+                              print(e);
+                            }
+                            var value =
+                                ActivityRequest().getActivity(widget.id);
+                            value.then(handleRequest);
+                          },
                           callback: (id) {
                             var newTasks = activity.tasks;
                             newTasks[id].done = !newTasks[id].done;
@@ -129,7 +143,22 @@ class ActivityDetailView extends State<ActivityDetail> {
                             color: Colors.black),
                       ),
                       SizedBox(height: 16),
-                      CommentListWidget(comments: activity.comments),
+                      CommentListWidget(
+                        comments: activity.comments,
+                        callback: (id) async {
+                          setState(() {
+                            loading = true;
+                          });
+                          try {
+                            await CommentRequest().delete(id);
+                          } catch (e) {
+
+                          }
+                          var value =
+                              ActivityRequest().getActivity(widget.id);
+                          value.then(handleRequest);
+                        },
+                      ),
                       SizedBox(height: 16),
                       Row(mainAxisAlignment: MainAxisAlignment.end, children: [
                         // First child is enter comment text input

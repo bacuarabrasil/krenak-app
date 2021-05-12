@@ -64,4 +64,17 @@ class ActivityRequest {
       throw Exception('Unable to perform request!');
     }
   }
+
+  Future<void> deleteActivity(String id) async {
+    var login = await SessionRequest().execute();
+    var access = login.access;
+    dio.options.headers['authorization'] = 'Bearer $access';
+
+    Response response = await dio.delete('/activities/' + id + '/');
+    if (response.statusCode == 204) {
+      return;
+    } else {
+      throw Exception('Unable to perform request!');
+    }
+  }
 }
