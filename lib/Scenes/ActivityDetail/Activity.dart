@@ -1,10 +1,11 @@
 class Author {
+  String id;
   String firstName;
 
-  Author({this.firstName});
+  Author({this.id, this.firstName});
 
   factory Author.fromJson(Map<String, dynamic> json) {
-    return Author(firstName: json['first_name']);
+    return Author(id: json['id'].toString(), firstName: json['first_name']);
   }
 }
 

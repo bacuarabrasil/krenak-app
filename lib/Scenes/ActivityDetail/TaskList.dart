@@ -1,19 +1,57 @@
 import 'dart:core';
 import 'package:flutter/material.dart';
 import 'package:krenak/Scenes/ActivityDetail/Activity.dart';
+import 'package:krenak/Services/Request/MeRequest.dart';
 import 'package:krenak/Services/Request/TaskRequest.dart';
 
 class TaskListWidget extends StatefulWidget {
   final List<Task> tasks;
   final Function(int) callback;
+  final Function(String) delete;
+  final Function(Task) edit;
 
-  const TaskListWidget({this.tasks, this.callback});
+  const TaskListWidget({this.tasks, this.callback, this.delete, this.edit});
 
   @override
   _TaskListWidgetState createState() => _TaskListWidgetState();
 }
 
 class _TaskListWidgetState extends State<TaskListWidget> {
+  _showBottomSheet(Task task) {
+    showModalBottomSheet(
+        context: context,
+        builder: (BuildContext bc) {
+          return Container(
+            child: Wrap(
+              children: <Widget>[
+                ListTile(
+                    leading: new Icon(Icons.edit),
+                    title: new Text('Editar'),
+                    onTap: () {
+                      Navigator.pop(context);
+                      widget.edit(task);
+                    }),
+                ListTile(
+                  leading: new Icon(Icons.delete),
+                  title: new Text('Deletar'),
+                  onTap: () async {
+                    Navigator.pop(context);
+                    widget.delete(task.id);
+                  },
+                ),
+                ListTile(
+                  leading: new Icon(Icons.cancel),
+                  title: new Text('Cancelar'),
+                  onTap: () {
+                    Navigator.pop(context);
+                  },
+                ),
+              ],
+            ),
+          );
+        });
+  }
+
   @override
   Widget build(BuildContext context) {
     var tasks = widget.tasks;
@@ -22,6 +60,11 @@ class _TaskListWidgetState extends State<TaskListWidget> {
         runSpacing: 20,
         children: tasks
             .mapIndexed((task, index) => ElevatedButton(
+              onLongPress: () {
+                if (MeRequest.shared.meResponse.role == 'MTR') {
+                  _showBottomSheet(task);
+                }
+              },
                   style: ButtonStyle(
                     backgroundColor: MaterialStateProperty.resolveWith<Color>(
                       (Set<MaterialState> states) {

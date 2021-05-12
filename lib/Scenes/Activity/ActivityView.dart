@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:krenak/Scenes/ActivityCreate/ActivityCreateView.dart';
 import 'package:krenak/Scenes/ActivityDetail/Activity.dart';
 import 'package:krenak/Scenes/ActivityDetail/ActivityDetailView.dart';
+import 'package:krenak/Scenes/ActivityEdit/ActivityEditView.dart';
 import 'package:krenak/Services/Request/ActivityRequest.dart';
 import 'package:krenak/Services/Request/MeRequest.dart';
 
@@ -36,6 +37,59 @@ class ActivityViewState extends State<ActivityView> {
 
   List<Activity> activities = [];
 
+  _showBottomSheet(Activity activity) {
+    showModalBottomSheet(
+        context: context,
+        builder: (BuildContext bc) {
+          return Container(
+            child: Wrap(
+              children: <Widget>[
+                ListTile(
+                    leading: new Icon(Icons.edit),
+                    title: new Text('Editar'),
+                    onTap: () async {
+                      Navigator.pop(context);
+                      await Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => ActivityEditView(id: widget.id, activity: activity),
+                          ));
+                      setState(() {
+                        loading = true;
+                      });
+                      var value = ActivityRequest().getActivities(widget.id);
+                      value.then(handleRequest);
+                    }),
+                ListTile(
+                  leading: new Icon(Icons.delete),
+                  title: new Text('Deletar'),
+                  onTap: () async {
+                    Navigator.pop(context);
+                    setState(() {
+                      loading = true;
+                    });
+                    try {
+                      await ActivityRequest().deleteActivity(activity.id);
+                    } catch (e) {
+
+                    }                    
+                    var value = ActivityRequest().getActivities(widget.id);
+                    value.then(handleRequest);
+                  },
+                ),
+                ListTile(
+                  leading: new Icon(Icons.cancel),
+                  title: new Text('Cancelar'),
+                  onTap: () {
+                    Navigator.pop(context);
+                  },
+                ),
+              ],
+            ),
+          );
+        });
+  }
+
   @override
   Widget build(BuildContext context) {
     Widget loadingIndicator = loading
@@ -57,7 +111,13 @@ class ActivityViewState extends State<ActivityView> {
           ListView(
             padding: EdgeInsets.symmetric(vertical: 8.0),
             children: activities
-                .map((activity) => InkWell(
+                .map((activity) => GestureDetector(
+                  onLongPressUp: () {
+                    if (MeRequest.shared.meResponse.role == 'MTR') {
+                      _showBottomSheet(activity);
+                    }
+                  },
+                  child: InkWell(
                     onTap: () {
                       Navigator.push(
                           context,
@@ -67,7 +127,7 @@ class ActivityViewState extends State<ActivityView> {
                           ));
                     },
                     child: Container(
-                      decoration: BoxDecoration(
+                        decoration: BoxDecoration(
                           color: Colors.blue[400],
                           borderRadius: new BorderRadius.circular(8.0),
                           boxShadow: [
@@ -104,10 +164,13 @@ class ActivityViewState extends State<ActivityView> {
                                       color: Colors.black),
                                 ),
                               ],
-                            )))))
+                            ))))))
                 .toList(),
           ),
-          new Align(child: loadingIndicator,alignment: FractionalOffset.center,),
+          new Align(
+            child: loadingIndicator,
+            alignment: FractionalOffset.center,
+          ),
         ]),
         floatingActionButton: Visibility(
             visible: MeRequest.shared.meResponse.role == 'MTR',

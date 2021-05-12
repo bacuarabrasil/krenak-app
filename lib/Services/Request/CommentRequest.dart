@@ -35,4 +35,17 @@ class CommentRequest {
       throw Exception('Unable to perform request!');
     }
   }
+
+  Future<void> delete(String id) async {
+    var login = await SessionRequest().execute();
+    var access = login.access;
+    dio.options.headers['authorization'] = 'Bearer $access';
+
+    Response response = await dio.delete('/comments/' + id + '/');
+    if (response.statusCode == 204) {
+      return;
+    } else {
+      throw Exception('Unable to perform request!');
+    }
+  }
 }
